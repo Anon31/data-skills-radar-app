@@ -1,67 +1,73 @@
-# 📊 Data Skills Radar - Interface Décisionnelle (App)
+📊 Data Skills Radar - Business Intelligence UI (App)
 
-![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
-![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?style=for-the-badge&logo=duckdb&logoColor=black)
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
+Welcome to the Frontend repository of the Data Skills Radar project.
 
-Bienvenue sur le dépôt Frontend du projet **Data Skills Radar**.
+This application is the visual interface (Business Intelligence) of a global Decision Support System (DSS) designed to analyze and predict the impact of Artificial Intelligence on employment trends and skill mutations in France.
 
-Cette application est l'interface visuelle (Business Intelligence) d'un Système d'Information Décisionnel global conçu pour analyser et prédire l'impact de l'Intelligence Artificielle sur les mutations de l'emploi en France.
+The source code for the backend (Data Lakehouse, Ingestion, PySpark) can be found on the companion repository: data-skills-radar-lakehouse.
 
-*Le code source du backend (Data Lakehouse, Ingestion, PySpark) se trouve sur le dépôt compagnon : [data-skills-radar-lakehouse](https://github.com/Anon31/data-skills-radar-lakehouse).*
+🇫🇷 Language Policy: While this README is in English for international visibility, the detailed architectural documentation (in the docs/ folder) and the Git commit messages are written in French. This aligns with the local academic and business context of this specific project (French employment data).
 
----
+🎯 Purpose of this application
 
-## 🎯 Le but de cette application
+Unlike traditional dashboards that rely on heavy backend database servers, this application innovates by implementing a Zero-ETL architecture.
 
-Contrairement aux tableaux de bord traditionnels qui nécessitent un serveur de base de données lourd, cette application innove en utilisant une architecture **Zero-ETL**.
+Powered by DuckDB (running directly inside the user's browser via WebAssembly), this Angular application queries massive analytical datasets (Apache Parquet format) stored on an Object Storage (S3) on the fly.
 
-Grâce à **DuckDB** (intégré directement dans le navigateur via WebAssembly), cette application Angular interroge à la volée de gigantesques fichiers analytiques (format Apache Parquet) stockés sur un Object Storage (S3).
+Key Features (Upcoming):
 
-**Fonctionnalités principales (à venir) :**
-- 🗺️ Cartographie interactive de la destruction/création d'emplois par région.
-- 📈 Visualisation des tendances de compétences (Soft Skills vs Hard Skills) par secteur d'activité (Code NAF).
-- 🔮 Tableau de bord prédictif basé sur les modèles de Machine Learning du backend.
+🗺️ Interactive mapping of job creation/destruction across French regions.
 
-## 🛠️ Stack Technique
+📈 Visualization of skill trends (Soft Skills vs. Hard Skills) filtered by business sector (NAF Codes).
 
-- **Framework UI :** Angular (v22+)
-- **Moteur Analytique (Client-side) :** DuckDB-WASM
-- **Visualisation de données :** (Librairie à définir - ex: ECharts, D3.js, Leaflet)
+🔮 Predictive dashboard driven by the backend's Machine Learning forecasting models.
 
-## 🚀 Démarrage rapide (Développement local)
+🛠️ Tech Stack
 
-### Prérequis
-Assurez-vous d'avoir installé **Node.js** (version `24.15.0` ou supérieure) et **Angular CLI**.
+UI Framework: Angular (v22+)
 
-### Installation
+Client-side Analytics Engine: DuckDB-WASM
 
-1. Clonez le dépôt sur votre machine :
-```bash
+Data Visualization: (Library to be defined - e.g., ECharts, D3.js, Leaflet)
+
+🚀 Quick Start (Local Development)
+
+Prerequisites
+
+Ensure you have Node.js (version 24.15.0 or higher) and the Angular CLI installed on your machine.
+
+Installation
+
+Clone the repository:
+
 git clone https://github.com/Anon31/data-skills-radar-app.git
 cd data-skills-radar-app
-```
 
-2. Installez les dépendances du projet :
-```bash
+
+Install project dependencies:
+
 npm install
-```
 
-3. Lancez le serveur de développement :
-```bash
+
+Start the development server:
+
 ng serve
-```
 
-4. Ouvrez votre navigateur et accédez à `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez les fichiers sources.
 
-## 🤝 Conventions de contribution (GitOps)
+Open your browser and navigate to http://localhost:4200/. The application will automatically reload if you change any of the source files.
 
-Ce projet respecte des normes strictes d'industrialisation logicielle :
+🤝 Contribution Guidelines (GitOps)
 
-- **Conventional Commits :** Tous les messages de commit doivent suivre la syntaxe `type(scope): description` (ex: `feat(ui): ajout de la carte de France`).
-- **Nommage des branches :** Les développements se font sur des branches nommées `type/contexte/description` (ex: `feat/dashboard/job-trends`) avant d'être fusionnées via Pull Request sur la branche `master`.
-- **Branches principales :** `master` (Production) et `develop` (Intégration).
+This project strictly adheres to industrial software engineering standards:
 
-## ⚖️ Licence
+Commit Language: Commit descriptions must be written in French (e.g., feat(ui): ajout de la carte de France).
 
-Ce projet est sous licence **MIT**. Vous êtes libre de l'utiliser, de le modifier et de le distribuer, à condition de conserver la notice de copyright. Voir le fichier [LICENSE](./LICENSE) pour plus de détails.
+Conventional Commits: All commit messages must follow the type(scope): description syntax.
+
+Branch Naming: Developments must be done on ephemeral branches following the type/context/short-description format (e.g., feat/dashboard/job-trends) before being merged via Pull Request.
+
+Main Branches: master (Production) and develop (Integration).
+
+⚖️ License
+
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software, provided that the original copyright notice is included. See the LICENSE file for more details.
