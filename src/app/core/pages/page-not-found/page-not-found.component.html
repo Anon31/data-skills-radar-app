@@ -1,0 +1,65 @@
+<main class="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden bg-surface-50 dark:bg-surface-950 transition-colors duration-300">
+
+    <!-- === ONDES DE FOND (On réutilise la dérive de la page de login) === -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px] animate-wave-slow pointer-events-none -z-10"></div>
+    <!-- Une onde rougeâtre pour souligner l'erreur 404 -->
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-[100px] animate-wave-fast pointer-events-none -z-10"></div>
+
+    <!-- === CONTENEUR GLASSMORPHISM === -->
+    <div class="relative z-10 flex flex-col items-center p-10 md:p-16 text-center rounded-3xl border border-surface-200/50 dark:border-surface-700/50 shadow-2xl bg-surface-0/60 dark:bg-surface-900/60 backdrop-blur-xl max-w-2xl w-full mx-auto">
+
+        <!-- === ANIMATION "CIBLE PERDUE" === -->
+        <div class="relative flex items-center justify-center mb-8">
+            <!-- Ondes d'alerte (Rouge) -->
+            <div class="absolute w-24 h-24 rounded-full border-2 border-red-500/40 animate-ripple"></div>
+            <div class="absolute w-24 h-24 rounded-full border-2 border-red-500/20 animate-ripple" style="animation-delay: 1.5s;"></div>
+            <!-- Le Radar central -->
+            <div class="relative z-10 flex items-center justify-center w-24 h-24 rounded-full bg-surface-0 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 shadow-xl">
+                <!-- L'icône tourne grâce à ton animate-radar-spin -->
+                <span class="material-symbols-outlined text-5xl text-surface-400 dark:text-surface-500 animate-radar-spin">
+                    radar
+                </span>
+            </div>
+            <!-- La cible perdue (Point rouge clignotant) -->
+            <div class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping z-20"></div>
+            <div class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full z-10"></div>
+        </div>
+
+        <!-- === TEXTES === -->
+        <!-- Grand 404 en dégradé (Primaire vers Rouge) avec effet pulse -->
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-red-500 animate-pulse">
+            404
+        </h1>
+
+        <h2 class="mt-4 text-2xl md:text-3xl font-bold text-surface-900 dark:text-surface-0">
+            Signal hors radar
+        </h2>
+
+        <p class="mt-4 text-lg text-surface-600 dark:text-surface-400 max-w-lg mx-auto">
+            Notre IA a scruté l'ensemble du système, mais cette donnée semble avoir été effacée, déplacée, ou n'a jamais existé.
+        </p>
+
+        <!-- === BOUTONS D'ACTION === -->
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+            <button
+                pButton
+                severity="secondary"
+                rounded
+                class="w-full sm:w-auto px-6 py-3"
+                (click)="goBack()">
+                <span class="material-symbols-outlined mr-2">arrow_back</span>
+                Revenir en arrière
+            </button>
+
+            <button
+                pButton
+                severity="primary"
+                rounded
+                class="w-full sm:w-auto px-6 py-3"
+                (click)="goHome()">
+                <span class="material-symbols-outlined mr-2">home</span>
+                Retour à l'accueil
+            </button>
+        </div>
+    </div>
+</main>

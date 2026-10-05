@@ -1,0 +1,100 @@
+<main class="flex flex-col lg:flex-row min-h-screen bg-surface-50 dark:bg-surface-950 transition-colors duration-300 overflow-hidden">
+    <!-- COLONNE GAUCHE : BRANDING -->
+    <!-- Partie gauche de la page de connexion -->
+    <div class="relative flex flex-col items-center justify-center w-full lg:w-1/2 p-12 overflow-hidden">
+
+        <!-- === ONDES DE FOND (Le flux de données) === -->
+        <!-- Onde 1 : Primaire (Se déplace lentement vers le haut à droite) -->
+        <div class="absolute -bottom-20 -left-20 w-[40rem] h-[40rem] bg-primary-500/10 dark:bg-primary-500/20 rounded-full blur-[100px] animate-wave-slow pointer-events-none"></div>
+
+        <!-- Onde 2 : Secondaire (Croise l'autre onde) -->
+        <div class="absolute top-20 left-10 w-[30rem] h-[30rem] bg-surface-500/10 dark:bg-surface-500/20 rounded-full blur-[80px] animate-wave-fast pointer-events-none"></div>
+
+        <!-- === LE LOGO ET L'ÉCHO RADAR === -->
+        <div class="relative flex items-center justify-center mb-10">
+            <!-- Cercle d'onde 1 (S'étend et s'efface) -->
+            <div class="absolute w-16 h-16 rounded-full border-2 border-primary-500 animate-ripple"></div>
+            <!-- Cercle d'onde 2 (Légèrement décalé dans le temps via un délai Tailwind si souhaité, ou géré par l'animation) -->
+            <div class="absolute w-16 h-16 rounded-full border-2 border-primary-500 animate-ripple" style="animation-delay: 1.5s;"></div>
+
+            <!-- Le Logo central -->
+            <div class="relative z-10 flex items-center justify-center w-16 h-16 rounded-full bg-surface-0 dark:bg-surface-900 border border-surface-200 dark:border-surface-700 shadow-xl">
+                <!-- Ajout de animate-radar-spin pour une rotation très lente type balayage radar -->
+                <span class="material-symbols-outlined text-3xl text-primary-500 animate-radar-spin">
+                track_changes
+            </span>
+            </div>
+        </div>
+
+        <!-- === TEXTES === -->
+        <h1 class="text-5xl md:text-6xl font-black tracking-tight text-center text-surface-900 dark:text-surface-0 z-10">
+            Data Skills Radar
+        </h1>
+
+        <p class="mt-6 text-xl text-center text-surface-600 dark:text-surface-400 max-w-lg z-10 leading-relaxed">
+            Le SID analytique qui croise macro-économie et IA pour anticiper la mutation des compétences.
+        </p>
+
+    </div>
+    <!-- COLONNE DROITE : ACTIONS -->
+    <div class="flex-1 flex flex-col items-center justify-center p-6 relative">
+        <div class="w-full max-w-sm">
+
+            @if (!showLoginForm()) {
+                <!-- ETAT 1 : BOUTONS D'ACCUEIL -->
+                <div class="space-y-8 animate-fadein">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-semibold text-primary-500">Bienvenue</h2>
+                        <p class="text-surface-500 dark:text-surface-400 mt-2">Choisissez votre mode d'accès</p>
+                    </div>
+
+                    <div class="flex flex-col gap-4 mt-8">
+                        <button
+                            pButton
+                            rounded
+                            class="w-full py-4 flex justify-center gap-3 text-lg font-medium bg-primary-500 text-white hover:bg-primary-600 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
+                            (click)="toggleForm()">
+                            <span class="material-symbols-outlined">login</span>
+                            <span>Se connecter</span>
+                        </button>
+
+                        <button
+                            pButton
+                            outlined
+                            rounded
+                            severity="secondary"
+                            class="w-full py-4 flex justify-center gap-3 text-lg font-medium border border-surface-300 dark:border-surface-700 text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 transition-all hover:scale-[1.02]"
+                            (click)="visitAsGuest()">
+                            <span class="material-symbols-outlined">explore</span>
+                            <span>Visiter sans inscription</span>
+                        </button>
+                    </div>
+                </div>
+            } @else {
+                <!-- ETAT 2 : FORMULAIRE -->
+                <div class="animate-fadein">
+                    <button
+                        pButton
+                        text
+                        rounded
+                        severity="secondary"
+                        class="mb-6 !px-0 flex items-center gap-2 text-surface-500 hover:text-surface-900 dark:hover:text-surface-0 transition-colors"
+                        (click)="toggleForm()">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span class="font-medium">Retour</span>
+                    </button>
+
+                    <div class="bg-surface-0/80 dark:bg-surface-900/80 backdrop-blur-md p-8 md:p-10 rounded-[2rem] w-full shadow-2xl border border-surface-200/60 dark:border-surface-700/60">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-semibold text-primary-500">Connexion</h2>
+                            <p class="text-sm text-surface-500 dark:text-surface-400 mt-1">Accédez à votre espace d'analyse</p>
+                        </div>
+
+                        <app-login-form></app-login-form>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</main>

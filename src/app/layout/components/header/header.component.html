@@ -1,0 +1,36 @@
+<header class="h-16 border-b border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 flex items-center justify-between px-6 transition-colors duration-300 shadow-sm">
+
+    <div class="flex items-center gap-4">
+        <!-- Bouton pour ouvrir/fermer la sidebar (Icon Google : menu) -->
+        <button
+            pButton
+            text
+            rounded
+            severity="secondary"
+            (click)="sessionService.toggleSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+
+        <span class="text-xl font-bold text-primary-500">Data Skills Radar</span>
+
+        <!-- Affichage dynamique de l'utilisateur -->
+        @if (authService.userConnected(); as user) {
+            <span class="hidden md:inline-flex px-3 py-1 text-sm rounded-full bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300">
+                {{ user.firstname }} {{ user.lastname }}
+                <span class="opacity-50 text-xs ml-1">({{ user.role }})</span>
+            </span>
+        }
+    </div>
+
+    <div class="flex items-center">
+        <!-- Bouton de déconnexion (Icon Google : logout) -->
+        <button
+            pButton
+            text
+            rounded
+            severity="danger"
+            (click)="logout()">
+            <span class="material-symbols-outlined">logout</span>
+        </button>
+    </div>
+</header>

@@ -1,4 +1,4 @@
-# 📊 Data Skills Radar - Business Intelligence UI (App)
+# 📊 Data Skills Radar - Business Intelligence UI (AppComponent)
 
 Welcome to the Frontend repository of the **Data Skills Radar** project.
 

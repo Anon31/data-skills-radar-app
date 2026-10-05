@@ -1,0 +1,49 @@
+<div class="space-y-6 max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Tableau de bord</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 🌍 VISIBLE PAR TOUS (VISITOR, USER, ADMIN) -->
+        <div class="glass-panel p-6 rounded-xl border-t-4 border-surface-400">
+            <h3 class="text-lg font-semibold mb-2">Cartographie Nationale</h3>
+            <p class="text-3xl font-bold text-surface-900 dark:text-surface-0">2.4M</p>
+            <p class="text-sm text-surface-500">Offres analysées (Mode découverte)</p>
+        </div>
+
+        <!-- 🌟 VISIBLE PAR LES ABONNÉS & L'ADMIN -->
+        @if (permissionService.canUseAdvancedFilters()) {
+            <div class="glass-panel p-6 rounded-xl border-t-4 border-primary-500 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-10">
+                    <i class="pi pi-star-fill text-8xl text-primary-500"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 text-primary-500">Filtres Prédictifs (Premium)</h3>
+                <p class="text-sm text-surface-500 mb-4">Accès au moteur NLP DuckDB déverrouillé.</p>
+                <button pButton label="Générer Rapport CSV" icon="pi pi-download" size="small"></button>
+            </div>
+        } @else {
+            <!-- UPSELL POUR LE VISITEUR -->
+            <div
+                class="glass-panel p-6 rounded-xl border-t-4 border-surface-200 dark:border-surface-700 bg-surface-100/50 dark:bg-surface-800/50">
+                <h3 class="text-lg font-semibold mb-2 text-surface-400">Filtres Prédictifs</h3>
+                <p class="text-sm text-surface-500 mb-4">Découvrez la mutation des compétences par Code NAF.</p>
+                <button pButton label="Passer Premium" icon="pi pi-lock-open" severity="secondary" size="small" [outlined]="true"></button>
+            </div>
+        }
+
+        <!-- ⚙️ VISIBLE UNIQUEMENT PAR TOI (ADMIN) -->
+        @if (permissionService.canConfigureDataStack()) {
+            <div class="glass-panel p-6 rounded-xl border-t-4 border-red-500">
+                <h3 class="text-lg font-semibold mb-2 text-red-500">Monitoring Infra</h3>
+                <div class="space-y-2 mt-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-surface-500">Flux Redpanda</span>
+                        <span class="text-green-500 font-bold">Actif</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-surface-500">PySpark Cluster</span>
+                        <span class="text-amber-500 font-bold">78% CPU</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<form (ngSubmit)="submitForm()" class="flex flex-col gap-6 w-full pt-4">
+
+    <!-- Champ Adresse Email -->
+    <p-iftalabel class="w-full block">
+        <input
+            pInputText
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="email"
+            class="w-full"
+            autocomplete="email"
+        />
+        <label for="email">Adresse email</label>
+    </p-iftalabel>
+
+    <!-- Champ Mot de passe -->
+    <p-iftalabel class="w-full block">
+        <input
+            pInputText
+            id="password"
+            name="password"
+            type="password"
+            [(ngModel)]="password"
+            class="w-full"
+            autocomplete="current-password"
+        />
+        <label for="password">Mot de passe</label>
+    </p-iftalabel>
+
+    <button
+        pButton
+        type="submit"
+        rounded
+        class="w-full mt-2 py-4 flex justify-center gap-3 text-lg font-medium bg-primary-500 text-white hover:bg-primary-600 shadow-md hover:shadow-lg transition-all">
+        <span>Se connecter</span>
+        <span class="material-symbols-outlined">login</span>
+    </button>
+
+</form>
