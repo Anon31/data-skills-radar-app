@@ -99,5 +99,3 @@ export const DsrTheme = definePreset(Aura, {
         }
     }
 });
-
-export default DsrTheme;
