@@ -1,46 +1,117 @@
-<div class="space-y-6 max-w-7xl mx-auto">
-    <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Tableau de bord</h1>
+<div class="space-y-8 max-w-7xl mx-auto p-2">
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- 🌍 VISIBLE PAR TOUS (VISITOR, USER, ADMIN) -->
-        <div class="glass-panel p-6 rounded-xl border-t-4 border-surface-400">
-            <h3 class="text-lg font-semibold mb-2">Cartographie Nationale</h3>
-            <p class="text-3xl font-bold text-surface-900 dark:text-surface-0">2.4M</p>
-            <p class="text-sm text-surface-500">Offres analysées (Mode découverte)</p>
+    <!-- En-tête de page -->
+    <div class="flex items-end justify-between border-b border-surface-200 dark:border-surface-800 pb-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-black tracking-tight text-primary-500 font-space-grotesk drop-shadow-sm m-0">
+                Tableau de bord
+            </h1>
+            <p class="text-surface-500 dark:text-surface-400 text-sm mt-2 font-medium tracking-wide">
+                Vue d'ensemble de l'architecture Data Skills Radar
+            </p>
+        </div>
+    </div>
+
+    <!-- Grille des métriques -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        <!-- 🌍 CARTE 1 : Cartographie Nationale -->
+        <div class="relative overflow-hidden rounded-2xl bg-surface-0/80 dark:bg-surface-900/80 backdrop-blur-md border border-surface-200 dark:border-surface-800 shadow-sm hover:shadow-md hover:border-surface-300 dark:hover:border-surface-700 transition-all duration-300 p-6 flex flex-col group">
+            <div class="absolute top-0 left-0 w-full h-1 bg-surface-400 dark:bg-surface-600"></div>
+
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-surface-500 dark:text-surface-400 font-bold tracking-wider uppercase text-xs">Cartographie Nationale</h3>
+                <span class="material-symbols-outlined text-surface-300 dark:text-surface-600 group-hover:text-surface-500 transition-colors">travel_explore</span>
+            </div>
+
+            <div class="flex-1 flex flex-col justify-center">
+                <span class="text-5xl font-black text-surface-900 dark:text-surface-0 font-space-grotesk tracking-tighter">2.4M</span>
+                <span class="text-surface-600 dark:text-surface-300 text-sm mt-2 font-medium">Offres analysées</span>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-surface-200/50 dark:border-surface-800/50 flex items-center justify-between text-xs text-surface-500">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">public</span> Mode découverte</span>
+                <span class="font-mono">MàJ: 2h</span>
+            </div>
         </div>
 
-        <!-- 🌟 VISIBLE PAR LES ABONNÉS & L'ADMIN -->
+        <!-- 🌟 CARTE 2 : Filtres Prédictifs (Premium) -->
         @if (permissionService.canUseAdvancedFilters()) {
-            <div class="glass-panel p-6 rounded-xl border-t-4 border-primary-500 relative overflow-hidden">
-                <div class="absolute -right-4 -top-4 opacity-10">
-                    <i class="pi pi-star-fill text-8xl text-primary-500"></i>
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-500/15 to-transparent backdrop-blur-md border border-primary-500/30 shadow-[0_0_15px_-3px_rgba(var(--p-primary-500),0.1)] hover:shadow-[0_0_20px_-3px_rgba(var(--p-primary-500),0.25)] hover:border-primary-500/50 transition-all duration-300 p-6 flex flex-col group">
+                <div class="absolute top-0 left-0 w-full h-1 bg-primary-500 shadow-[0_0_10px_rgba(var(--p-primary-500),0.8)]"></div>
+
+                <!-- Filigrane -->
+                <span class="material-symbols-outlined absolute -right-6 -bottom-6 text-[150px] text-primary-500/5 group-hover:text-primary-500/10 group-hover:scale-110 transition-all duration-700 transform rotate-12 z-0">auto_awesome</span>
+
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase text-xs flex items-center gap-2">
+                        Filtres Prédictifs
+                        <span class="bg-primary-500/20 text-primary-700 dark:text-primary-300 px-2 py-0.5 rounded text-[9px] border border-primary-500/30">PREMIUM</span>
+                    </h3>
                 </div>
-                <h3 class="text-lg font-semibold mb-2 text-primary-500">Filtres Prédictifs (Premium)</h3>
-                <p class="text-sm text-surface-500 mb-4">Accès au moteur NLP DuckDB déverrouillé.</p>
-                <button pButton label="Générer Rapport CSV" icon="pi pi-download" size="small"></button>
+
+                <div class="flex-1 flex flex-col justify-between relative z-10">
+                    <p class="text-surface-700 dark:text-surface-200 text-sm mb-6 leading-relaxed">
+                        Le moteur NLP <strong class="text-primary-600 dark:text-primary-400">DuckDB</strong> est déverrouillé. Analysez la mutation des compétences par Code NAF.
+                    </p>
+
+                    <!-- Bouton PrimeNG avec Material Icon interne -->
+                    <button pButton size="small" class="w-full shadow-sm flex justify-center items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        <span>Générer Rapport CSV</span>
+                    </button>
+                </div>
             </div>
         } @else {
-            <!-- UPSELL POUR LE VISITEUR -->
-            <div
-                class="glass-panel p-6 rounded-xl border-t-4 border-surface-200 dark:border-surface-700 bg-surface-100/50 dark:bg-surface-800/50">
-                <h3 class="text-lg font-semibold mb-2 text-surface-400">Filtres Prédictifs</h3>
-                <p class="text-sm text-surface-500 mb-4">Découvrez la mutation des compétences par Code NAF.</p>
-                <button pButton label="Passer Premium" icon="pi pi-lock-open" severity="secondary" size="small" [outlined]="true"></button>
+            <div class="relative overflow-hidden rounded-2xl bg-surface-100/50 dark:bg-surface-800/30 backdrop-blur-md border border-surface-200 dark:border-surface-700 p-6 flex flex-col grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                <div class="absolute top-0 left-0 w-full h-1 bg-surface-400 dark:bg-surface-600"></div>
+                <h3 class="text-surface-500 dark:text-surface-400 font-bold tracking-wider uppercase text-xs mb-4">Filtres Prédictifs</h3>
+                <p class="text-surface-500 text-sm mb-6 flex-1">Découvrez la mutation des compétences par Code NAF. Réservé aux abonnés.</p>
+
+                <!-- Bouton PrimeNG avec Material Icon interne -->
+                <button pButton severity="secondary" size="small" [outlined]="true" class="w-full flex justify-center items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">lock</span>
+                    <span>Passer Premium</span>
+                </button>
             </div>
         }
 
-        <!-- ⚙️ VISIBLE UNIQUEMENT PAR TOI (ADMIN) -->
+        <!-- ⚙️ CARTE 3 : Monitoring Infra (Admin) -->
         @if (permissionService.canConfigureDataStack()) {
-            <div class="glass-panel p-6 rounded-xl border-t-4 border-red-500">
-                <h3 class="text-lg font-semibold mb-2 text-red-500">Monitoring Infra</h3>
-                <div class="space-y-2 mt-4">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-surface-500">Flux Redpanda</span>
-                        <span class="text-green-500 font-bold">Actif</span>
+            <div class="relative overflow-hidden rounded-2xl bg-surface-0/80 dark:bg-surface-900/80 backdrop-blur-md border border-surface-200 dark:border-surface-800 shadow-sm hover:shadow-md hover:border-surface-300 dark:border-surface-700 transition-all duration-300 p-6 flex flex-col">
+                <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-surface-500 dark:text-surface-400 font-bold tracking-wider uppercase text-xs">Monitoring Infra</h3>
+                    <span class="material-symbols-outlined text-red-500 animate-pulse">memory</span>
+                </div>
+
+                <div class="flex-1 space-y-3 font-mono text-xs md:text-sm">
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-surface-50 dark:bg-surface-950/50 border border-surface-200/50 dark:border-surface-800/50">
+                        <span class="text-surface-600 dark:text-surface-400">Flux Redpanda</span>
+                        <span class="text-green-600 dark:text-green-400 font-bold flex items-center gap-2">
+                            <span class="relative flex h-2 w-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            ACTIF
+                        </span>
                     </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-surface-500">PySpark Cluster</span>
-                        <span class="text-amber-500 font-bold">78% CPU</span>
+
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-surface-50 dark:bg-surface-950/50 border border-surface-200/50 dark:border-surface-800/50">
+                        <span class="text-surface-600 dark:text-surface-400">PySpark Cluster</span>
+                        <span class="text-amber-600 dark:text-amber-500 font-bold flex items-center gap-2">
+                            78% CPU
+                            <span class="material-symbols-outlined text-[16px]">warning</span>
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between items-center p-3 rounded-lg bg-surface-50 dark:bg-surface-950/50 border border-surface-200/50 dark:border-surface-800/50">
+                        <span class="text-surface-600 dark:text-surface-400">DuckDB Nodes</span>
+                        <span class="text-surface-900 dark:text-surface-100 font-bold flex items-center gap-1">
+                             <span class="material-symbols-outlined text-[16px] text-green-500">check_circle</span>
+                             3/3 OK
+                         </span>
                     </div>
                 </div>
             </div>
