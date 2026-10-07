@@ -1,5 +1,5 @@
 # Étape 1 : Construction de l'application (Build)
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 
 # Copie des manifestes et installation propre
