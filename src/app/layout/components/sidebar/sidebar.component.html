@@ -1,1 +1,16 @@
-<p>sidebar.component works!</p>
+<aside class="flex flex-col h-full bg-surface-0/95 dark:bg-surface-900/95 border-r border-surface-200 dark:border-surface-800 transition-all duration-300 shadow-lg z-40"
+       [class.w-64]="isOpen()"
+       [class.w-20]="!isOpen()">
+
+    <!-- En-tête : Logo + Titre -->
+    <app-sidebar-header [isOpen]="isOpen()"></app-sidebar-header>
+
+    <!-- Zone de navigation (prend l'espace restant) -->
+    <div class="flex-1 overflow-y-auto overflow-x-hidden p-3">
+        <app-sidebar-menu [isOpen]="isOpen()"></app-sidebar-menu>
+    </div>
+
+    <!-- Pied de sidebar : Profil Utilisateur -->
+    <app-sidebar-user [isOpen]="isOpen()"></app-sidebar-user>
+
+</aside>

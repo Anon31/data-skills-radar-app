@@ -21,9 +21,9 @@ export class AuthService {
     public login(payload: ILoginPayload): Observable<{ body: ILoginDto }> {
         // 1. Simulation d'une base de données locale pour tester les 3 rôles
         const mockDb: Record<string, { role: Role; firstname: string; lastname: string }> = {
-            'admin@dsr.fr': { role: 'ADMIN', firstname: 'Architecte', lastname: 'Système' },
-            'user@dsr.fr': { role: 'USER', firstname: 'Client', lastname: 'Premium' },
-            'visitor@dsr.fr': { role: 'VISITOR', firstname: 'Explorateur', lastname: 'Curieux' },
+            'admin@dsr.fr': { role: 'ADMIN', firstname: 'Thomas', lastname: 'NOËL' },
+            'user@dsr.fr': { role: 'USER', firstname: 'Bob', lastname: 'Marley' },
+            'visitor@dsr.fr': { role: 'VISITOR', firstname: 'John', lastname: 'Doe' },
         };
 
         const userFound = mockDb[payload.email];
