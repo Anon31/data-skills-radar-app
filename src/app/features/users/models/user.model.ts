@@ -10,7 +10,7 @@ export interface IUserDto {
     phone?: string;
     birthdate: string;
     enabled: boolean;
-    role: Role | string; // Compatible avec notre système strict ET l'API
+    role: Role;
     createdAt: string;
     updatedAt: string;
     address?: IAddressDto;

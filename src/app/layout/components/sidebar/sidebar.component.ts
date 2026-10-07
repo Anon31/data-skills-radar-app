@@ -5,7 +5,7 @@ import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
 
 @Component({
     selector: 'app-sidebar',
-    imports: [ SidebarHeaderComponent, SidebarMenuComponent, SidebarUserComponent],
+    imports: [SidebarHeaderComponent, SidebarMenuComponent, SidebarUserComponent],
     templateUrl: './sidebar.component.html',
     styleUrl: './sidebar.component.css',
 })
