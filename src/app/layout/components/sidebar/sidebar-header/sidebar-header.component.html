@@ -1,0 +1,14 @@
+<div class="flex items-center gap-3 p-4 border-b border-surface-200/50 dark:border-surface-800/50 min-h-[5rem] overflow-hidden">
+    <!-- Radar animé -->
+    <div class="relative flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-2xl bg-primary-500/10 border border-primary-500/30">
+        <span class="material-symbols-outlined text-primary-500 text-2xl relative z-10">radar</span>
+        <span class="absolute inset-0 rounded-2xl bg-primary-500/30 animate-ping z-0"></span>
+    </div>
+
+    <!-- Titre de l'application (Masqué si fermé) -->
+    <h1 class="text-xl font-black tracking-tight text-primary-500 font-space-grotesk whitespace-nowrap transition-opacity duration-300"
+        [class.opacity-100]="isOpen()"
+        [class.opacity-0]="!isOpen()">
+        Data Skills Radar
+    </h1>
+</div>

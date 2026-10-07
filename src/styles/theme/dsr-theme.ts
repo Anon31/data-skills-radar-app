@@ -36,7 +36,7 @@ export const DsrTheme = definePreset(Aura, {
                     800: '{slate.800}',
                     900: '{slate.900}',
                     950: '{slate.950}',
-                }
+                },
             },
             // 🌙 MODE SOMBRE : Fonds Bleu Nuit + Primaire AMBER (Orange)
             dark: {
@@ -70,9 +70,9 @@ export const DsrTheme = definePreset(Aura, {
                     800: '{slate.800}',
                     900: '{slate.900}',
                     950: '{slate.950}',
-                }
-            }
-        }
+                },
+            },
+        },
     },
     components: {
         toast: {
@@ -84,20 +84,66 @@ export const DsrTheme = definePreset(Aura, {
             },
             colorScheme: {
                 light: {
-                    success: { background: 'rgba(209, 250, 229, 0.95)', color: '#047857', detailColor: '#065f46', borderColor: 'rgba(16, 185, 129, 0.5)', shadow: '0 8px 30px rgba(16, 185, 129, 0.2)' },
-                    info: { background: 'rgba(219, 234, 254, 0.95)', color: '#1e40af', detailColor: '#1e3a8a', borderColor: 'rgba(59, 130, 246, 0.5)', shadow: '0 8px 30px rgba(59, 130, 246, 0.2)' },
-                    warn: { background: 'rgba(255, 237, 213, 0.95)', color: '#9a3412', detailColor: '#7c2d12', borderColor: 'rgba(249, 115, 22, 0.5)', shadow: '0 8px 30px rgba(249, 115, 22, 0.2)' },
-                    error: { background: 'rgba(254, 226, 226, 0.95)', color: '#991b1b', detailColor: '#7f1d1d', borderColor: 'rgba(239, 68, 68, 0.5)', shadow: '0 8px 30px rgba(239, 68, 68, 0.2)' },
+                    success: {
+                        background: 'rgba(209, 250, 229, 0.95)',
+                        color: '#047857',
+                        detailColor: '#065f46',
+                        borderColor: 'rgba(16, 185, 129, 0.5)',
+                        shadow: '0 8px 30px rgba(16, 185, 129, 0.2)',
+                    },
+                    info: {
+                        background: 'rgba(219, 234, 254, 0.95)',
+                        color: '#1e40af',
+                        detailColor: '#1e3a8a',
+                        borderColor: 'rgba(59, 130, 246, 0.5)',
+                        shadow: '0 8px 30px rgba(59, 130, 246, 0.2)',
+                    },
+                    warn: {
+                        background: 'rgba(255, 237, 213, 0.95)',
+                        color: '#9a3412',
+                        detailColor: '#7c2d12',
+                        borderColor: 'rgba(249, 115, 22, 0.5)',
+                        shadow: '0 8px 30px rgba(249, 115, 22, 0.2)',
+                    },
+                    error: {
+                        background: 'rgba(254, 226, 226, 0.95)',
+                        color: '#991b1b',
+                        detailColor: '#7f1d1d',
+                        borderColor: 'rgba(239, 68, 68, 0.5)',
+                        shadow: '0 8px 30px rgba(239, 68, 68, 0.2)',
+                    },
                 },
                 dark: {
-                    success: { background: 'linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(2, 44, 34, 0.6) 100%)', color: '#a7f3d0', detailColor: '#6ee7b7', borderColor: 'rgba(52, 211, 153, 0.8)', shadow: '0 4px 30px rgba(16, 185, 129, 0.35)' },
-                    info: { background: 'linear-gradient(145deg, rgba(59, 130, 246, 0.15) 0%, rgba(30, 58, 138, 0.4) 100%)', color: '#dbeafe', detailColor: '#bfdbfe', borderColor: 'rgba(96, 165, 250, 0.6)', shadow: '0 4px 25px rgba(59, 130, 246, 0.25)' },
-                    warn: { background: 'linear-gradient(145deg, rgba(249, 115, 22, 0.15) 0%, rgba(124, 45, 18, 0.4) 100%)', color: '#ffedd5', detailColor: '#fed7aa', borderColor: 'rgba(251, 146, 60, 0.6)', shadow: '0 4px 25px rgba(249, 115, 22, 0.25)' },
-                    error: { background: 'linear-gradient(145deg, rgba(225, 29, 72, 0.2) 0%, rgba(76, 5, 25, 0.6) 100%)', color: '#ffe4e6', detailColor: '#fda4af', borderColor: 'rgba(251, 113, 133, 0.8)', shadow: '0 4px 30px rgba(225, 29, 72, 0.35)' },
+                    success: {
+                        background: 'linear-gradient(145deg, rgba(16, 185, 129, 0.2) 0%, rgba(2, 44, 34, 0.6) 100%)',
+                        color: '#a7f3d0',
+                        detailColor: '#6ee7b7',
+                        borderColor: 'rgba(52, 211, 153, 0.8)',
+                        shadow: '0 4px 30px rgba(16, 185, 129, 0.35)',
+                    },
+                    info: {
+                        background: 'linear-gradient(145deg, rgba(59, 130, 246, 0.15) 0%, rgba(30, 58, 138, 0.4) 100%)',
+                        color: '#dbeafe',
+                        detailColor: '#bfdbfe',
+                        borderColor: 'rgba(96, 165, 250, 0.6)',
+                        shadow: '0 4px 25px rgba(59, 130, 246, 0.25)',
+                    },
+                    warn: {
+                        background: 'linear-gradient(145deg, rgba(249, 115, 22, 0.15) 0%, rgba(124, 45, 18, 0.4) 100%)',
+                        color: '#ffedd5',
+                        detailColor: '#fed7aa',
+                        borderColor: 'rgba(251, 146, 60, 0.6)',
+                        shadow: '0 4px 25px rgba(249, 115, 22, 0.25)',
+                    },
+                    error: {
+                        background: 'linear-gradient(145deg, rgba(225, 29, 72, 0.2) 0%, rgba(76, 5, 25, 0.6) 100%)',
+                        color: '#ffe4e6',
+                        detailColor: '#fda4af',
+                        borderColor: 'rgba(251, 113, 133, 0.8)',
+                        shadow: '0 4px 30px rgba(225, 29, 72, 0.35)',
+                    },
                 },
             },
-        }
-    }
+        },
+    },
 });
-
-export default DsrTheme;
