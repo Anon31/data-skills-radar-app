@@ -1,4 +1,4 @@
-import { Injectable, signal, effect, Inject } from '@angular/core';
+import { Injectable, signal, effect, Inject, WritableSignal, Signal } from '@angular/core';
 import { IUserDto } from '../../features/users/models/user.model';
 import { DOCUMENT } from '@angular/common';
 
@@ -13,17 +13,23 @@ export class SessionService {
     } as const;
 
     // --- SIGNALS INTERNES ---
-    // Lecture initiale des préférences de thème et de la sidebar se fait depuis le localStorage, avec une valeur par défaut si aucune donnée n'est présente.
-    private readonly _isDarkMode = signal<boolean>(this.getBooleanFromStorage(localStorage, this.KEYS.DARK_MODE, this.prefersDarkMode()));
-    private readonly _isSidebarOpen = signal<boolean>(this.getBooleanFromStorage(localStorage, this.KEYS.SIDEBAR_OPEN, true));
-    // Lecture initiale de l'utilisateur courant se fait depuis le sessionStorage, avec une valeur par défaut de null si aucune donnée n'est présente.
-    private readonly _currentUser = signal<IUserDto | null>(this.getObjectFromStorage<IUserDto>(sessionStorage, this.KEYS.CURRENT_USER, null));
+    private readonly _isDarkMode: WritableSignal<boolean>;
+    private readonly _isSidebarOpen: WritableSignal<boolean>;
+    private readonly _currentUser: WritableSignal<IUserDto | null>;
 
-    public readonly isDarkMode = this._isDarkMode.asReadonly();
-    public readonly isSidebarOpen = this._isSidebarOpen.asReadonly();
-    public readonly currentUser = this._currentUser.asReadonly();
+    public readonly isDarkMode: Signal<boolean>;
+    public readonly isSidebarOpen: Signal<boolean>;
+    public readonly currentUser: Signal<IUserDto | null>;
 
     constructor(@Inject(DOCUMENT) private readonly document: Document) {
+        this._isDarkMode = signal<boolean>(this.getBooleanFromStorage(localStorage, this.KEYS.DARK_MODE, this.prefersDarkMode()));
+        this._isSidebarOpen = signal<boolean>(this.getBooleanFromStorage(localStorage, this.KEYS.SIDEBAR_OPEN, true));
+        this._currentUser = signal<IUserDto | null>(this.getObjectFromStorage<IUserDto>(sessionStorage, this.KEYS.CURRENT_USER, null));
+
+        this.isDarkMode = this._isDarkMode.asReadonly();
+        this.isSidebarOpen = this._isSidebarOpen.asReadonly();
+        this.currentUser = this._currentUser.asReadonly();
+
         // Effect : Synchronisation du Thème (LocalStorage)
         effect(() => {
             const isDark = this._isDarkMode();
@@ -80,7 +86,7 @@ export class SessionService {
     private getBooleanFromStorage(storage: Storage, key: string, defaultValue: boolean): boolean {
         try {
             const item = storage.getItem(key);
-            return item !== null ? JSON.parse(item) : defaultValue;
+            return item !== null ? (JSON.parse(item) as boolean) : defaultValue;
         } catch {
             return defaultValue;
         }
@@ -96,6 +102,9 @@ export class SessionService {
     }
 
     private prefersDarkMode(): boolean {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        return false;
     }
 }
