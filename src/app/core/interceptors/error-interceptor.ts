@@ -20,24 +20,16 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             }
             // Cas 2 : Accès refusé (RBAC - L'utilisateur n'a pas le bon rôle)
             else if (error.status === 403) {
-                toasterService.error(
-                    'Accès refusé',
-                    "Vous n'avez pas les droits nécessaires pour effectuer cette action.",
-                );
+                toasterService.error('Accès refusé', "Vous n'avez pas les droits nécessaires pour effectuer cette action.");
             }
             // Cas 3 : Le serveur est éteint ou inaccessible (Hors ligne)
             else if (error.status === 0) {
-                toasterService.error(
-                    'Erreur réseau',
-                    'Impossible de joindre le serveur. Vérifiez votre connexion.',
-                );
+                toasterService.error('Erreur réseau', 'Impossible de joindre le serveur. Vérifiez votre connexion.');
             }
             // Cas 4 : Erreurs métiers renvoyées par le backend NestJS (ex: P2002 Doublon)
             else if (error.error?.message) {
                 // NestJS peut renvoyer un tableau de messages (class-validator) ou une string
-                const message = Array.isArray(error.error.message)
-                    ? error.error.message.join(', ')
-                    : error.error.message;
+                const message = Array.isArray(error.error.message) ? error.error.message.join(', ') : error.error.message;
 
                 toasterService.error('Erreur', message);
             }
