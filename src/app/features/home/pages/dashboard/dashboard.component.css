@@ -1,0 +1,54 @@
+.dashboard-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid var(--p-surface-200);
+    background-color: var(--p-surface-0);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+:host-context(.dark) .dashboard-card {
+    border-color: var(--p-surface-700);
+    background-color: var(--p-surface-900);
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.25rem;
+}
+
+.premium-card {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--p-primary-500) 10%, transparent), transparent);
+    border-color: color-mix(in srgb, var(--p-primary-500) 30%, transparent);
+}
+
+.premium-card:hover {
+    border-color: color-mix(in srgb, var(--p-primary-500) 50%, transparent);
+    box-shadow: 0 0 20px -3px color-mix(in srgb, var(--p-primary-500) 25%, transparent);
+}
+
+.watermark {
+    position: absolute;
+    right: -1.5rem;
+    bottom: -1.5rem;
+    font-size: 150px;
+    transition: transform 0.7s ease;
+    transform: rotate(12deg);
+    z-index: 0;
+    color: color-mix(in srgb, var(--p-primary-500) 5%, transparent);
+}
+
+.premium-card:hover .watermark {
+    transform: rotate(12deg) scale(1.1);
+}

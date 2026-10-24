@@ -1,61 +1,94 @@
+import { computed, Injectable, signal, inject } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { IAuthUser, ILoginDto, ILoginPayload } from '../../features/auth/models/login.model';
-import { IUserDto, Role } from '../../features/users/models/user.model';
-import { Observable, delay, of, throwError } from 'rxjs';
-import { inject, Injectable } from '@angular/core';
-import { SessionService } from './session.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-    // On injecte le SessionService pour persister l'utilisateur
-    private readonly sessionService = inject(SessionService);
+    private jwtHelperService = new JwtHelperService();
+    private httpClient = inject(HttpClient);
+    private router = inject(Router);
 
-    // On expose l'utilisateur via le SessionService
-    public readonly userConnected = this.sessionService.currentUser;
+    private tokenSignal = signal<string | null>(null);
+    private userConnectedSignal = signal<IAuthUser | null>(null);
 
-    /**
-     * Simulation d'un appel réseau pour la connexion
-     * @param payload Les identifiants du formulaire
-     */
-    public login(payload: ILoginPayload): Observable<{ body: ILoginDto }> {
-        // 1. Simulation d'une base de données locale pour tester les 3 rôles
-        const mockDb: Record<string, { role: Role; firstname: string; lastname: string }> = {
-            'admin@dsr.fr': { role: 'ADMIN', firstname: 'Thomas', lastname: 'NOËL' },
-            'user@dsr.fr': { role: 'USER', firstname: 'Bob', lastname: 'Marley' },
-            'visitor@dsr.fr': { role: 'VISITOR', firstname: 'John', lastname: 'Doe' },
-        };
+    readonly isAuthenticated = computed(() => {
+        const token = this.tokenSignal();
+        return !!token && !this.jwtHelperService.isTokenExpired(token);
+    });
 
-        const userFound = mockDb[payload.email];
+    readonly userConnected = computed(() => this.userConnectedSignal());
 
-        // 2. Simulation d'une erreur si l'email n'est pas dans notre "base"
-        if (!userFound) {
-            return throwError(() => new Error('Identifiants incorrects')).pipe(delay(800));
-        }
-
-        // 3. Création du faux Token et de l'utilisateur
-        const mockAuthUser: IAuthUser = {
-            id: Math.floor(Math.random() * 1000),
-            email: payload.email,
-            firstname: userFound.firstname,
-            lastname: userFound.lastname,
-            role: userFound.role,
-        };
-
-        // Mise à jour de la session
-        this.sessionService.setCurrentUser(mockAuthUser as IUserDto);
-
-        // 4. On retourne la réponse formatée avec un délai simulé de 800ms
-        const response: ILoginDto = {
-            access_token: 'fake-jwt-token-12345',
-            message: 'Connexion réussie',
-            user: mockAuthUser,
-        };
-
-        return of({ body: response }).pipe(delay(800));
+    constructor() {
+        this.loadToken();
     }
 
-    public logout(): void {
-        this.sessionService.clearSession();
+    login(payload: ILoginPayload): Observable<HttpResponse<ILoginDto>> {
+        return this.httpClient.post<ILoginDto>(`${environment.API_URL}/auth/login`, payload, { observe: 'response' }).pipe(
+            tap((response) => {
+                const body = response.body;
+                if (body?.access_token) {
+                    this.saveToken(body.access_token);
+                    if (body.user) {
+                        this.userConnectedSignal.set(body.user);
+                        localStorage.setItem('USER_DATA', JSON.stringify(body.user));
+                    }
+                }
+            }),
+        );
+    }
+
+    logout() {
+        this.httpClient.post(`${environment.API_URL}/auth/logout`, {}).subscribe({
+            next: () => this.executeLogout(),
+            error: () => this.executeLogout(),
+        });
+    }
+
+    private executeLogout() {
+        this.clearState();
+        this.router.navigate(['/connexion']).then();
+    }
+
+    saveToken(jwt: string) {
+        localStorage.setItem('JWT_TOKEN', jwt);
+        this.tokenSignal.set(jwt);
+    }
+
+    getToken(): string | null {
+        return this.tokenSignal();
+    }
+
+    loadToken(): void {
+        const token = localStorage.getItem('JWT_TOKEN');
+        const userStr = localStorage.getItem('USER_DATA');
+
+        if (token && !this.jwtHelperService.isTokenExpired(token)) {
+            this.tokenSignal.set(token);
+            if (userStr) {
+                try {
+                    this.userConnectedSignal.set(JSON.parse(userStr));
+                } catch (e) {
+                    console.error('Erreur parsing user data', e);
+                }
+            }
+        } else {
+            this.clearState();
+        }
+    }
+
+    isTokenExpired(): boolean {
+        const token = this.tokenSignal();
+        return !token || this.jwtHelperService.isTokenExpired(token);
+    }
+
+    private clearState(): void {
+        localStorage.removeItem('JWT_TOKEN');
+        localStorage.removeItem('USER_DATA');
+        this.tokenSignal.set(null);
+        this.userConnectedSignal.set(null);
     }
 }
