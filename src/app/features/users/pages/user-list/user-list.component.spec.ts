@@ -15,7 +15,13 @@ describe('UserListComponent', () => {
         await fixture.whenStable();
     });
 
-    it('should create', () => {
+    it('doit être correctement instancié', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('doit contenir les composants app-page-card-wrapper et app-user-table', () => {
+        const compiled = fixture.nativeElement as HTMLElement;
+        expect(compiled.querySelector('app-page-card-wrapper')).not.toBeNull();
+        expect(compiled.querySelector('app-user-table')).not.toBeNull();
     });
 });

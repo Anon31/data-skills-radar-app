@@ -15,7 +15,7 @@ describe('UserCreateComponent', () => {
         await fixture.whenStable();
     });
 
-    it('should create', () => {
+    it('doit être correctement instancié', () => {
         expect(component).toBeTruthy();
     });
 });
