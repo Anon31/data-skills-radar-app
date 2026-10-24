@@ -5,11 +5,16 @@ import { DsrTheme } from '../styles/theme/dsr-theme';
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { loadingInterceptor } from './core/interceptors/loading-interceptor';
+import { tokenInterceptor } from './core/interceptors/token-interceptor';
+import { errorInterceptor } from './core/interceptors/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZonelessChangeDetection(),
         provideRouter(routes),
+        provideHttpClient(withInterceptors([loadingInterceptor, tokenInterceptor, errorInterceptor])),
         providePrimeNG({
             license:
                 'eyJpZCI6IjIwY2ZhMzIzLWYyMDYtNDEyNy05M2Q0LWIxZDQ5NGE5ODQ4ZiIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3OTEwNDU4NjAsImV4cCI6MTgyMjU4MTg2MH0.4dLFDSsBCBbxLCoxBT1qkoPX2Z9A0ZDeJKAD7OBwg63VqizkIFE7UW1P2UPwTuwdFajj4dtGO-E8yCa21tiPDw',

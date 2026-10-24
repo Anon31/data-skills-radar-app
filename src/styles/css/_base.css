@@ -1,7 +1,16 @@
 @layer base {
-    body {
+    :root {
+        --p-font-family: 'Space Grotesk', sans-serif;
+    }
+
+    html, body {
+        font-family: var(--p-font-family), sans-serif !important;
         @apply bg-surface-50 text-surface-900 font-sans antialiased min-h-screen m-0 transition-colors duration-300;
-        font-family: 'Space Grotesk', sans-serif !important;
+    }
+
+    /* On empêche PrimeNG d'écraser la police à l'intérieur de ses propres composants */
+    .p-component {
+        font-family: var(--p-font-family), sans-serif !important;
     }
 }
 

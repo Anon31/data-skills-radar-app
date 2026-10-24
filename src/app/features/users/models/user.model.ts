@@ -3,7 +3,7 @@ import { IAddressDto, IAddressPayload } from '../../../shared/models/address.mod
 export type Role = 'ADMIN' | 'USER' | 'VISITOR';
 
 export interface IUserDto {
-    id: number;
+    id: string;
     firstname: string;
     lastname: string;
     email: string;

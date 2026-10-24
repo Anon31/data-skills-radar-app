@@ -37,7 +37,7 @@ export class LoginFormComponent {
         this.authService.login(payload).subscribe({
             next: (response) => {
                 this.router.navigate(['/tableau-de-bord']).then(() => {
-                    this.toastService.success(`Bonjour ${response.body.user.firstname}.`, `🌿 Bienvenue dans votre application.`);
+                    this.toastService.success(`Bonjour ${response.body?.user?.firstname}.`, `🌿 Bienvenue dans votre application.`);
                 });
             },
             error: () => {
