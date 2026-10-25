@@ -151,7 +151,7 @@ describe('AuthService', () => {
         });
 
         it('doit gérer un JSON corrompu dans USER_DATA sans planter', () => {
-            const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+            const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
             localStorage.setItem('JWT_TOKEN', validJwt);
             localStorage.setItem('USER_DATA', 'invalid-json{');
 
