@@ -13,21 +13,42 @@
 
             <!-- Liens de la catégorie -->
             @for (item of category.items; track item.id) {
-                <a [routerLink]="item.route"
-                   routerLinkActive="font-bold text-primary-600 dark:text-primary-400 bg-gradient-to-r from-primary-500/20 to-primary-500/5 border border-primary-500/40 scale-[1.02] translate-x-1 shadow-[0_0_15px_-3px_rgba(var(--p-primary-500),0.2)]"
-                   class="flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 group relative border border-transparent"
-                   [title]="!isOpen() ? item.label : ''">
+                @if (!item.disabled) {
+                    <a [routerLink]="item.route"
+                       routerLinkActive="font-bold text-primary-600 dark:text-primary-400 bg-gradient-to-r from-primary-500/20 to-primary-500/5 border border-primary-500/40 scale-[1.02] translate-x-1 shadow-[0_0_15px_-3px_rgba(var(--p-primary-500),0.2)]"
+                       class="flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 group relative border border-transparent"
+                       [title]="!isOpen() ? item.label : ''">
 
-                    <span class="material-symbols-outlined flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                        {{ item.icon }}
-                    </span>
+                        <span class="material-symbols-outlined flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            {{ item.icon }}
+                        </span>
 
-                    <span class="font-medium whitespace-nowrap transition-opacity duration-300"
-                          [class.opacity-100]="isOpen()"
-                          [class.opacity-0]="!isOpen()">
-                        {{ item.label }}
-                    </span>
-                </a>
+                        <span class="font-medium whitespace-nowrap transition-opacity duration-300"
+                              [class.opacity-100]="isOpen()"
+                              [class.opacity-0]="!isOpen()">
+                            {{ item.label }}
+                        </span>
+                    </a>
+                } @else {
+                    <div class="flex items-center gap-4 px-3 py-3 rounded-xl text-surface-400 dark:text-surface-600 cursor-not-allowed select-none border border-transparent"
+                         [title]="!isOpen() ? item.label + (item.badge ? ' (' + item.badge + ')' : '') : ''">
+
+                        <span class="material-symbols-outlined flex-shrink-0 opacity-50">
+                            {{ item.icon }}
+                        </span>
+
+                        <div class="font-medium whitespace-nowrap transition-opacity duration-300 flex-1 flex items-center justify-between"
+                             [class.opacity-100]="isOpen()"
+                             [class.opacity-0]="!isOpen()">
+                            <span>{{ item.label }}</span>
+                            @if (item.badge && isOpen()) {
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-surface-200/80 dark:bg-surface-800 text-surface-500 dark:text-surface-400 border border-surface-300/40 dark:border-surface-700/60">
+                                    {{ item.badge }}
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
             }
         </div>
     }

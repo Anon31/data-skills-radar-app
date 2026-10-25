@@ -10,10 +10,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
-            // Cas 1 : Non autorisé (Token expiré ou invalide)
+            // Cas 1 : Non autorisé (Identifiants invalides ou token expiré)
             if (error.status === 401) {
-                // On évite d'afficher l'erreur 401 si on est déjà sur la page de login
-                if (!req.url.includes('/auth/login')) {
+                if (req.url.includes('/auth/login')) {
+                    const message = error.error?.message || 'Identifiants incorrects. Vérifiez vos informations.';
+                    toasterService.error('Échec de connexion', message);
+                } else {
                     toasterService.error('Session expirée', 'Veuillez vous reconnecter.');
                     authService.logout();
                 }

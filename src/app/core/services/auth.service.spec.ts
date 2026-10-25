@@ -151,6 +151,7 @@ describe('AuthService', () => {
         });
 
         it('doit gérer un JSON corrompu dans USER_DATA sans planter', () => {
+            const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
             localStorage.setItem('JWT_TOKEN', validJwt);
             localStorage.setItem('USER_DATA', 'invalid-json{');
 
@@ -158,6 +159,41 @@ describe('AuthService', () => {
 
             expect(service.getToken()).toBe(validJwt);
             expect(service.userConnected()).toBeNull();
+            expect(consoleSpy).toHaveBeenCalled();
+            consoleSpy.mockRestore();
+        });
+
+        it('doit restaurer la session invité depuis localStorage si role === VISITOR', () => {
+            const guestUser: IAuthUser = {
+                id: 'guest',
+                firstname: 'Invité',
+                lastname: '',
+                email: '',
+                role: 'VISITOR',
+            };
+            localStorage.setItem('USER_DATA', JSON.stringify(guestUser));
+
+            service.loadToken();
+
+            expect(service.getToken()).toBeNull();
+            expect(service.userConnected()).toEqual(guestUser);
+        });
+    });
+
+    describe('loginAsGuest', () => {
+        it('doit initialiser un utilisateur virtuel avec le rôle VISITOR sans token', () => {
+            service.loginAsGuest();
+
+            expect(service.getToken()).toBeNull();
+            expect(service.isAuthenticated()).toBe(false);
+            expect(service.userConnected()).toEqual({
+                id: 'guest',
+                firstname: 'Invité',
+                lastname: '',
+                email: '',
+                role: 'VISITOR',
+            });
+            expect(localStorage.getItem('USER_DATA')).toContain('VISITOR');
         });
     });
 });
