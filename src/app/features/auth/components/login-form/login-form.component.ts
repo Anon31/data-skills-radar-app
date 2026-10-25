@@ -41,7 +41,7 @@ export class LoginFormComponent {
                 });
             },
             error: () => {
-                this.toastService.error('💥 Accès refusé', '🐞 Vérifiez vos informations.');
+                // Erreur interceptée et notifiée de manière centralisée par errorInterceptor
             },
         });
     }

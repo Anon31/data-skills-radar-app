@@ -1,7 +1,8 @@
-import { Component, effect, signal } from '@angular/core';
 import { SidebarHeaderComponent } from './sidebar-header/sidebar-header.component';
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
+import { SessionService } from '../../../core/services/session.service';
+import { Component, inject } from '@angular/core';
 
 @Component({
     selector: 'app-sidebar',
@@ -10,15 +11,11 @@ import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
     styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-    public readonly isOpen = signal<boolean>(sessionStorage.getItem('dsr_sidebar_state') !== 'false');
+    private readonly sessionService = inject(SessionService);
 
-    constructor() {
-        effect(() => {
-            sessionStorage.setItem('dsr_sidebar_state', String(this.isOpen()));
-        });
-    }
+    public readonly isOpen = this.sessionService.isSidebarOpen;
 
     public toggle(): void {
-        this.isOpen.update((v) => !v);
+        this.sessionService.toggleSidebar();
     }
 }

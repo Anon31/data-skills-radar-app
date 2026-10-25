@@ -1,4 +1,5 @@
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
+import { AuthService } from '../../../../core/services/auth.service';
 import { Component, inject, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
     private readonly router = inject(Router);
+    private readonly authService = inject(AuthService);
 
     public showLoginForm = signal<boolean>(false);
 
@@ -18,6 +20,7 @@ export class LoginComponent {
     }
 
     public visitAsGuest(): void {
+        this.authService.loginAsGuest();
         this.router.navigate(['/tableau-de-bord']);
     }
 }

@@ -1,6 +1,8 @@
 import { IAddressDto, IAddressPayload } from '../../../shared/models/address.model';
 
-export type Role = 'ADMIN' | 'USER' | 'VISITOR';
+import { RoleEnum, type Role } from '../../../core/enums/role.enum';
+
+export { RoleEnum, type Role };
 
 export interface IUserDto {
     id: string;
@@ -23,7 +25,7 @@ export interface IUserPayload {
     password: string;
     phone?: string;
     birthdate: string;
-    role: string;
+    role: Role;
     address?: IAddressPayload;
 }
 

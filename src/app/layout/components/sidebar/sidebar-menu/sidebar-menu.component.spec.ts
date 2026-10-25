@@ -1,15 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { signal, WritableSignal } from '@angular/core';
 import { SidebarMenuComponent } from './sidebar-menu.component';
+import { PermissionService } from '../../../../core/services/permission.service';
 
 describe('SidebarMenuComponent', () => {
     let component: SidebarMenuComponent;
     let fixture: ComponentFixture<SidebarMenuComponent>;
+    let isAdminSignal: WritableSignal<boolean>;
 
     beforeEach(async () => {
+        isAdminSignal = signal(true);
+
         await TestBed.configureTestingModule({
             imports: [SidebarMenuComponent],
-            providers: [provideRouter([])],
+            providers: [
+                provideRouter([]),
+                {
+                    provide: PermissionService,
+                    useValue: {
+                        isAdmin: isAdminSignal,
+                    },
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(SidebarMenuComponent);
@@ -22,7 +35,8 @@ describe('SidebarMenuComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('doit contenir les catégories prédéfinies de navigation (Général et Administration)', () => {
+    it('doit afficher Général et Administration pour un administrateur', () => {
+        isAdminSignal.set(true);
         const categories = component.categories();
         expect(categories.length).toBe(2);
         expect(categories[0].title).toBe('Général');
@@ -31,9 +45,20 @@ describe('SidebarMenuComponent', () => {
         expect(categories[1].items.some((i) => i.route === '/utilisateurs')).toBe(true);
     });
 
-    it('doit générer les liens de navigation dans le template', () => {
+    it('ne doit pas afficher la catégorie Administration pour un utilisateur non-admin', () => {
+        isAdminSignal.set(false);
+        const categories = component.categories();
+        expect(categories.length).toBe(1);
+        expect(categories[0].title).toBe('Général');
+        expect(categories.some((c) => c.title === 'Administration')).toBe(false);
+    });
+
+    it('doit générer les liens de navigation actifs ainsi que les éléments désactivés avec badge', () => {
         fixture.detectChanges();
         const links = fixture.nativeElement.querySelectorAll('a');
         expect(links.length).toBeGreaterThan(0);
+
+        const textContent = fixture.nativeElement.textContent;
+        expect(textContent).toContain('Bientôt');
     });
 });

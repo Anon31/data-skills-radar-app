@@ -38,7 +38,7 @@ describe('errorInterceptor', () => {
         expect(authServiceMock.logout).toHaveBeenCalled();
     });
 
-    it('ne doit PAS afficher de toast d’expiration de session sur une 401 issue de /auth/login', () => {
+    it('doit afficher un toast d’échec de connexion sans appeler logout lors d’une erreur 401 sur /auth/login', () => {
         const req = new HttpRequest('POST', '/api/v1/auth/login', {});
         const error = new HttpErrorResponse({ status: 401, statusText: 'Unauthorized' });
         const next: HttpHandlerFn = vi.fn().mockReturnValue(throwError(() => error));
@@ -50,6 +50,7 @@ describe('errorInterceptor', () => {
         });
 
         expect(authServiceMock.logout).not.toHaveBeenCalled();
+        expect(toasterServiceMock.error).toHaveBeenCalledWith('Échec de connexion', 'Identifiants incorrects. Vérifiez vos informations.');
     });
 
     it('doit traiter l’erreur 403 en affichant un toast d’accès refusé', () => {

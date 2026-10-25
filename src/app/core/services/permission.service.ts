@@ -1,5 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { RoleEnum } from '../enums/role.enum';
 
 @Injectable({
     providedIn: 'root',
@@ -11,9 +12,9 @@ export class PermissionService {
     public readonly currentRole = computed(() => this.authService.userConnected()?.role ?? null);
 
     // 2. Définition de tes rôles structurels
-    public readonly isAdmin = computed(() => this.currentRole() === 'ADMIN');
-    public readonly isUser = computed(() => this.currentRole() === 'USER');
-    public readonly isVisitor = computed(() => this.currentRole() === 'VISITOR');
+    public readonly isAdmin = computed(() => this.currentRole() === RoleEnum.ADMIN);
+    public readonly isUser = computed(() => this.currentRole() === RoleEnum.USER);
+    public readonly isVisitor = computed(() => this.currentRole() === RoleEnum.VISITOR);
 
     // --- 3. PERMISSIONS MÉTIER (Granularité pour l'UI) ---
 

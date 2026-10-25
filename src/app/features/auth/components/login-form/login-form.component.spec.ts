@@ -85,7 +85,7 @@ describe('LoginFormComponent', () => {
         expect(toasterServiceSpy.success).toHaveBeenCalledWith('Bonjour Ada.', '🌿 Bienvenue dans votre application.');
     });
 
-    it('doit afficher un toast d’erreur si l’appel authService.login échoue', () => {
+    it('ne doit pas afficher de toast en cas d’échec car l’erreur est gérée par errorInterceptor', () => {
         component.email.set('user@example.com');
         component.password.set('wrong-password');
 
@@ -94,7 +94,7 @@ describe('LoginFormComponent', () => {
         component.submitForm();
 
         expect(authServiceSpy.login).toHaveBeenCalled();
-        expect(toasterServiceSpy.error).toHaveBeenCalledWith('💥 Accès refusé', '🐞 Vérifiez vos informations.');
+        expect(toasterServiceSpy.error).not.toHaveBeenCalled();
         expect(routerSpy.navigate).not.toHaveBeenCalled();
     });
 });

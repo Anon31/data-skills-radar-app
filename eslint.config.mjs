@@ -53,6 +53,7 @@ export default tseslint.config(
             '@typescript-eslint/no-unused-vars': 'off',
             '@typescript-eslint/dot-notation': 'off',
             '@typescript-eslint/no-inferrable-types': 'off',
+            '@typescript-eslint/no-empty-function': 'off',
             'prefer-const': 'off',
             'no-useless-escape': 'off',
         },
