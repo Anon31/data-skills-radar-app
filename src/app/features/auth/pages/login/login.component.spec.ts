@@ -8,15 +8,17 @@ describe('LoginComponent', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
     let routerSpy: { navigate: ReturnType<typeof vi.fn> };
+    let authServiceSpy: { login: ReturnType<typeof vi.fn>; loginAsGuest: ReturnType<typeof vi.fn> };
 
     beforeEach(async () => {
         routerSpy = { navigate: vi.fn() };
+        authServiceSpy = { login: vi.fn(), loginAsGuest: vi.fn() };
 
         await TestBed.configureTestingModule({
             imports: [LoginComponent],
             providers: [
                 { provide: Router, useValue: routerSpy },
-                { provide: AuthService, useValue: { login: vi.fn() } },
+                { provide: AuthService, useValue: authServiceSpy },
                 { provide: ToasterService, useValue: { error: vi.fn(), success: vi.fn() } },
             ],
         }).compileComponents();
@@ -42,8 +44,9 @@ describe('LoginComponent', () => {
         expect(component.showLoginForm()).toBe(false);
     });
 
-    it('doit naviguer vers /tableau-de-bord lors d’un appel à visitAsGuest()', () => {
+    it('doit initialiser la session invité et naviguer vers /tableau-de-bord lors d’un appel à visitAsGuest()', () => {
         component.visitAsGuest();
+        expect(authServiceSpy.loginAsGuest).toHaveBeenCalled();
         expect(routerSpy.navigate).toHaveBeenCalledWith(['/tableau-de-bord']);
     });
 });

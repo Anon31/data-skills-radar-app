@@ -1,11 +1,11 @@
 export interface IAddressDto {
-    id: number;
-    number?: number;
+    id: string;
+    number?: string;
     street?: string;
     city?: string;
     zipcode?: string;
     state?: string;
-    userId: number;
+    userId: string;
 }
 
 export type IAddressPayload = Omit<IAddressDto, 'id' | 'userId'>;

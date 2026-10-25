@@ -1,23 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { DOCUMENT } from '@angular/common';
-import { IUserDto } from '../../features/users/models/user.model';
-
 describe('SessionService', () => {
     let service: SessionService;
     let mockDocument: Document;
-
-    const mockUser: IUserDto = {
-        id: 'user-123',
-        firstname: 'Thomas',
-        lastname: 'Pesquet',
-        email: 'thomas@esa.int',
-        birthdate: '1978-01-13',
-        enabled: true,
-        role: 'USER',
-        createdAt: '2026-01-01T00:00:00Z',
-        updatedAt: '2026-01-01T00:00:00Z',
-    };
 
     beforeEach(() => {
         localStorage.clear();
@@ -66,40 +52,22 @@ describe('SessionService', () => {
         expect(localStorage.getItem('dsr_sidebar_open')).toBe(JSON.stringify(!initialSidebar));
     });
 
-    it('doit définir l’utilisateur courant et le synchroniser dans sessionStorage', () => {
-        expect(service.currentUser()).toBeNull();
-
-        service.setCurrentUser(mockUser);
-        expect(service.currentUser()).toEqual(mockUser);
-
-        TestBed.flushEffects();
-        expect(sessionStorage.getItem('dsr_current_user')).toBe(JSON.stringify(mockUser));
-    });
-
-    it('doit effacer l’utilisateur courant et le supprimer de sessionStorage', () => {
-        service.setCurrentUser(mockUser);
-        TestBed.flushEffects();
-        expect(sessionStorage.getItem('dsr_current_user')).not.toBeNull();
-
-        service.clearCurrentUser();
-        expect(service.currentUser()).toBeNull();
-
-        TestBed.flushEffects();
-        expect(sessionStorage.getItem('dsr_current_user')).toBeNull();
-    });
-
-    it('doit vider la session tout en préservant la préférence de thème dans localStorage', () => {
+    it('doit vider le sessionStorage tout en préservant les préférences de thème et de sidebar dans localStorage', () => {
         if (!service.isDarkMode()) {
             service.toggleTheme();
         }
-        service.setCurrentUser(mockUser);
+        if (!service.isSidebarOpen()) {
+            service.toggleSidebar();
+        }
         TestBed.flushEffects();
 
-        expect(localStorage.getItem('dsr_dark_mode')).toBe('true');
+        sessionStorage.setItem('dsr_temp_data', 'some-value');
+        expect(sessionStorage.getItem('dsr_temp_data')).toBe('some-value');
 
         service.clearSession();
-        expect(service.currentUser()).toBeNull();
-        expect(sessionStorage.getItem('dsr_current_user')).toBeNull();
+
+        expect(sessionStorage.getItem('dsr_temp_data')).toBeNull();
         expect(localStorage.getItem('dsr_dark_mode')).toBe('true');
+        expect(localStorage.getItem('dsr_sidebar_open')).toBe('true');
     });
 });

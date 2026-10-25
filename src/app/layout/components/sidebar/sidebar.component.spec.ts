@@ -10,6 +10,7 @@ describe('SidebarComponent', () => {
     let fixture: ComponentFixture<SidebarComponent>;
 
     beforeEach(async () => {
+        localStorage.clear();
         sessionStorage.clear();
 
         await TestBed.configureTestingModule({
@@ -31,6 +32,7 @@ describe('SidebarComponent', () => {
     });
 
     afterEach(() => {
+        localStorage.clear();
         sessionStorage.clear();
     });
 
@@ -38,23 +40,25 @@ describe('SidebarComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('doit basculer le signal isOpen et le synchroniser dans sessionStorage', () => {
+    it('doit basculer le signal isOpen et le synchroniser dans localStorage', () => {
         const initial = component.isOpen();
         component.toggle();
         expect(component.isOpen()).toBe(!initial);
 
         TestBed.flushEffects();
-        expect(sessionStorage.getItem('dsr_sidebar_state')).toBe(String(!initial));
+        expect(localStorage.getItem('dsr_sidebar_open')).toBe(JSON.stringify(!initial));
     });
 
     it('doit appliquer la classe w-64 lorsqu’elle est ouverte et w-20 lorsqu’elle est fermée', () => {
-        component.isOpen.set(true);
+        if (!component.isOpen()) {
+            component.toggle();
+        }
         fixture.detectChanges();
         const aside = fixture.nativeElement.querySelector('aside') as HTMLElement;
         expect(aside.classList.contains('w-64')).toBe(true);
         expect(aside.classList.contains('w-20')).toBe(false);
 
-        component.isOpen.set(false);
+        component.toggle();
         fixture.detectChanges();
         expect(aside.classList.contains('w-20')).toBe(true);
         expect(aside.classList.contains('w-64')).toBe(false);

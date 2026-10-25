@@ -1,10 +1,11 @@
+import { IAuthUser, ILoginDto, ILoginPayload } from '../../features/auth/models/login.model';
 import { computed, Injectable, signal, inject } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { RoleEnum } from '../enums/role.enum';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { IAuthUser, ILoginDto, ILoginPayload } from '../../features/auth/models/login.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -41,7 +42,34 @@ export class AuthService {
         );
     }
 
+    /**
+     * Permet de se connecter en tant qu'invité (utilisateur "guest").
+     * Cette méthode crée un utilisateur avec le rôle VISITOR et le stocke dans le localStorage.
+     * Elle est utile pour permettre aux utilisateurs d'accéder à certaines fonctionnalités sans avoir besoin de créer un compte.
+     */
+    loginAsGuest(): void {
+        const guestUser: IAuthUser = {
+            id: 'guest',
+            firstname: 'Invité',
+            lastname: '',
+            email: '',
+            role: RoleEnum.VISITOR,
+        };
+        this.clearState();
+        this.userConnectedSignal.set(guestUser);
+        localStorage.setItem('USER_DATA', JSON.stringify(guestUser));
+    }
+
+    /**
+     * Déconnecte l'utilisateur actuel.
+     * Si un token est présent, il envoie une requête de déconnexion au backend.
+     * Sinon, il effectue simplement la déconnexion côté client.
+     */
     logout() {
+        if (!this.tokenSignal()) {
+            this.executeLogout();
+            return;
+        }
         this.httpClient.post(`${environment.API_URL}/auth/logout`, {}).subscribe({
             next: () => this.executeLogout(),
             error: () => this.executeLogout(),
@@ -75,6 +103,17 @@ export class AuthService {
                     console.error('Erreur parsing user data', e);
                 }
             }
+        } else if (userStr) {
+            try {
+                const user = JSON.parse(userStr) as IAuthUser;
+                if (user?.role === RoleEnum.VISITOR) {
+                    this.userConnectedSignal.set(user);
+                    return;
+                }
+            } catch (e) {
+                console.error('Erreur parsing guest user data', e);
+            }
+            this.clearState();
         } else {
             this.clearState();
         }

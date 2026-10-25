@@ -1,17 +1,24 @@
-import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
+import { loadingInterceptor } from './core/interceptors/loading-interceptor';
+import { EnumsDataService } from './core/enums/service/enums-data.service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { tokenInterceptor } from './core/interceptors/token-interceptor';
+import { errorInterceptor } from './core/interceptors/error-interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DsrTheme } from '../styles/theme/dsr-theme';
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { loadingInterceptor } from './core/interceptors/loading-interceptor';
-import { tokenInterceptor } from './core/interceptors/token-interceptor';
-import { errorInterceptor } from './core/interceptors/error-interceptor';
+import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAppInitializer(async () => {
+            const enumsService = inject(EnumsDataService);
+            // L'application attendra la résolution de cette promesse avant de s'afficher
+            await firstValueFrom(enumsService.loadReferenceData());
+        }),
         provideZonelessChangeDetection(),
         provideRouter(routes),
         provideHttpClient(withInterceptors([loadingInterceptor, tokenInterceptor, errorInterceptor])),
