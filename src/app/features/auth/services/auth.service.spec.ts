@@ -3,8 +3,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { environment } from '../../../environments/environment';
-import { IAuthUser, ILoginDto, ILoginPayload } from '../../features/auth/models/login.model';
+import { environment } from '../../../../environments/environment';
+import { IAuthUser, ILoginDto, ILoginPayload } from '../models/login.model';
 
 describe('AuthService', () => {
     let service: AuthService;

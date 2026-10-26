@@ -3,7 +3,7 @@ import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpErrorResponse } from
 import { throwError } from 'rxjs';
 import { errorInterceptor } from './error-interceptor';
 import { ToasterService } from '../services/toaster.service';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 describe('errorInterceptor', () => {
     let toasterServiceMock: { error: ReturnType<typeof vi.fn> };

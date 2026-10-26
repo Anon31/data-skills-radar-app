@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { signal, WritableSignal } from '@angular/core';
 import { PermissionService } from './permission.service';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 import { IAuthUser } from '../../features/auth/models/login.model';
 
 describe('PermissionService', () => {

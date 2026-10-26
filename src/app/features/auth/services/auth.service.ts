@@ -1,20 +1,20 @@
-import { IAuthUser, ILoginDto, ILoginPayload } from '../../features/auth/models/login.model';
+import { IAuthUser, ILoginDto, ILoginPayload } from '../models/login.model';
 import { computed, Injectable, signal, inject } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { RoleEnum } from '../enums/role.enum';
+import { RoleEnum } from '../../../core/enums/role.enum';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private jwtHelperService = new JwtHelperService();
-    private httpClient = inject(HttpClient);
-    private router = inject(Router);
+    private readonly jwtHelperService = new JwtHelperService();
+    private readonly httpClient = inject(HttpClient);
+    private readonly router = inject(Router);
 
-    private tokenSignal = signal<string | null>(null);
-    private userConnectedSignal = signal<IAuthUser | null>(null);
+    private readonly tokenSignal = signal<string | null>(null);
+    private readonly userConnectedSignal = signal<IAuthUser | null>(null);
 
     readonly isAuthenticated = computed(() => {
         const token = this.tokenSignal();
@@ -78,7 +78,7 @@ export class AuthService {
 
     private executeLogout() {
         this.clearState();
-        this.router.navigate(['/connexion']).then();
+        void this.router.navigate(['/connexion']);
     }
 
     saveToken(jwt: string) {

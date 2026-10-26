@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal, WritableSignal } from '@angular/core';
 import { SidebarUserComponent } from './sidebar-user.component';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../../features/auth/services/auth.service';
 import { IAuthUser } from '../../../../features/auth/models/login.model';
 
 describe('SidebarUserComponent', () => {

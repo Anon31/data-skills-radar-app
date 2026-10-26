@@ -1,13 +1,13 @@
+import { AuthService } from '../../features/auth/services/auth.service';
 import { ToasterService } from '../services/toaster.service';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 
 /**
  * Guard vérifiant si l'utilisateur est authentifié.
  * Redirige vers /connexion si l'accès est refusé.
  */
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
     const authService = inject(AuthService);
     const router = inject(Router);
     const toasterService = inject(ToasterService);
@@ -21,6 +21,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     toasterService.error('Accès refusé', "Veuillez vous connecter pour accéder à l'application.");
 
     // Redirection vers la page de connexion
-    router.navigate(['/connexion']);
+    void router.navigate(['/connexion']);
     return false;
 };

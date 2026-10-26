@@ -1,8 +1,6 @@
 import { IAddressDto, IAddressPayload } from '../../../shared/models/address.model';
-
-import { RoleEnum, type Role } from '../../../core/enums/role.enum';
-
-export { RoleEnum, type Role };
+import { type Role } from '../../../core/enums/role.enum';
+export { RoleEnum, type Role } from '../../../core/enums/role.enum';
 
 export interface IUserDto {
     id: string;

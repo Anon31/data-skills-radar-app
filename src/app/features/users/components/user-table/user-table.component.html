@@ -1,1 +1,348 @@
-<p>user-table.component works!</p>
+<div class="rounded-2xl overflow-hidden border border-surface shadow-sm text-sm font-light transition-colors duration-300">
+    <p-table
+        #usersTable
+        [value]="userService.users()"
+        [globalFilterFields]="['firstname', 'lastname', 'email', 'phone', 'address.city', 'role']"
+        [rowHover]="true"
+        [size]="'small'"
+        [resizableColumns]="true"
+        dataKey="id"
+        editMode="row">
+
+        <!-- BARRE DE RECHERCHE & ACTIONS -->
+        <ng-template #caption>
+            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-2">
+                <!-- GAUCHE : Outil de filtrage global avec Google Icon -->
+                <div class="relative w-full sm:w-72">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-color text-[20px] pointer-events-none select-none">
+                        search
+                    </span>
+                    <label for="user-search-input" class="sr-only">Rechercher un utilisateur</label>
+                    <input
+                        id="user-search-input"
+                        pInputText
+                        pSize="small"
+                        type="text"
+                        (input)="usersTable.filterGlobal($any($event.target).value, 'contains')"
+                        placeholder="Rechercher un utilisateur..."
+                        class="w-full pl-10! rounded-xl" />
+                </div>
+
+                <!-- DROITE : Bouton Création d'utilisateur avec Google Icon via directive [pButton] -->
+                <div class="flex items-center justify-end">
+                    @if (permissionService.canManageUsers()) {
+                        <button
+                            pButton
+                            type="button"
+                            rounded
+                            raised
+                            size="small"
+                            routerLink="/utilisateurs/creer"
+                            class="flex items-center gap-1.5 font-medium cursor-pointer">
+                            <span class="material-symbols-outlined text-[18px]">person_add</span>
+                            <span>Créer un utilisateur</span>
+                        </button>
+                    }
+                </div>
+            </div>
+        </ng-template>
+
+        <!-- EN-TÊTES DE COLONNES -->
+        <ng-template #header>
+            <tr>
+                <th scope="col" pSortableColumn="firstname" style="width: 15%">
+                    <div class="flex items-center gap-2">
+                        Prénom
+                        <p-sort-icon field="firstname" />
+                    </div>
+                </th>
+                <th scope="col" pSortableColumn="lastname" style="width: 15%">
+                    <div class="flex items-center gap-2">
+                        Nom
+                        <p-sort-icon field="lastname" />
+                    </div>
+                </th>
+                <th scope="col" pSortableColumn="email" style="width: 22%">
+                    <div class="flex items-center gap-2">
+                        Email
+                        <p-sort-icon field="email" />
+                    </div>
+                </th>
+                <th scope="col" style="width: 14%">
+                    <div class="flex items-center gap-2">
+                        Téléphone
+                    </div>
+                </th>
+                <th scope="col" pSortableColumn="address.city" style="width: 12%">
+                    <div class="flex items-center gap-2">
+                        Ville
+                        <p-sort-icon field="address.city" />
+                    </div>
+                </th>
+                <th scope="col" pSortableColumn="role" style="width: 12%">
+                    <div class="flex items-center gap-2">
+                        Rôle
+                        <p-sort-icon field="role" />
+                    </div>
+                </th>
+                <th scope="col" pSortableColumn="enabled" style="width: 10%">
+                    <div class="flex items-center gap-2">
+                        Statut
+                        <p-sort-icon field="enabled" />
+                    </div>
+                </th>
+                <th scope="col" style="width: 10%" class="text-center">
+                    <div class="flex items-center justify-center">
+                        Actions
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+
+        <!-- LIGNES DE DONNÉES & ÉDITION -->
+        <ng-template #body let-user let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="user">
+                <!-- PRÉNOM -->
+                <td>
+                    <p-cell-editor>
+                        <ng-template #input>
+                            <label for="edit-firstname" class="sr-only">Prénom</label>
+                            <input
+                                id="edit-firstname"
+                                pInputText
+                                pSize="small"
+                                type="text"
+                                [(ngModel)]="user.firstname"
+                                class="w-full" />
+                        </ng-template>
+                        <ng-template #output>
+                            <span class="font-medium">{{ user.firstname }}</span>
+                        </ng-template>
+                    </p-cell-editor>
+                </td>
+
+                <!-- NOM -->
+                <td>
+                    <p-cell-editor>
+                        <ng-template #input>
+                            <label for="edit-lastname" class="sr-only">Nom</label>
+                            <input
+                                id="edit-lastname"
+                                pInputText
+                                pSize="small"
+                                type="text"
+                                [(ngModel)]="user.lastname"
+                                class="w-full" />
+                        </ng-template>
+                        <ng-template #output>
+                            <span class="font-medium">{{ user.lastname }}</span>
+                        </ng-template>
+                    </p-cell-editor>
+                </td>
+
+                <!-- EMAIL -->
+                <td>
+                    <p-cell-editor>
+                        <ng-template #input>
+                            <label for="edit-email" class="sr-only">Email</label>
+                            <input
+                                id="edit-email"
+                                pInputText
+                                pSize="small"
+                                type="email"
+                                [(ngModel)]="user.email"
+                                class="w-full" />
+                        </ng-template>
+                        <ng-template #output>
+                            {{ user.email }}
+                        </ng-template>
+                    </p-cell-editor>
+                </td>
+
+                <!-- TÉLÉPHONE -->
+                <td>
+                    <p-cell-editor>
+                        <ng-template #input>
+                            <label for="edit-phone" class="sr-only">Téléphone</label>
+                            <input
+                                id="edit-phone"
+                                pInputText
+                                pSize="small"
+                                type="tel"
+                                [(ngModel)]="user.phone"
+                                class="w-full" />
+                        </ng-template>
+                        <ng-template #output>
+                            <span class="text-muted-color">{{ user.phone || '—' }}</span>
+                        </ng-template>
+                    </p-cell-editor>
+                </td>
+
+                <!-- VILLE (CONSULTATION) -->
+                <td>
+                    {{ user.address?.city || '—' }}
+                </td>
+
+                <!-- RÔLE -->
+                <td>
+                    <p-cell-editor>
+                        <ng-template #input>
+                            <p-select
+                                [options]="rolesOptions()"
+                                [(ngModel)]="user.role"
+                                size="small"
+                                appendTo="body"
+                                optionLabel="label"
+                                optionValue="value"
+                                class="w-full">
+                            </p-select>
+                        </ng-template>
+                        <ng-template #output>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                                {{ user.role | enumsDynamic:'roles' }}
+                            </span>
+                        </ng-template>
+                    </p-cell-editor>
+                </td>
+
+                <!-- STATUT -->
+                <td>
+                    <p-tag
+                        [rounded]="true"
+                        [value]="user.enabled ? 'Actif' : 'Inactif'"
+                        [severity]="user.enabled ? 'success' : 'danger'">
+                    </p-tag>
+                </td>
+
+                <!-- ACTIONS AVEC GOOGLE ICONS VIA DIRECTIVE [pButton] -->
+                <td>
+                    <div class="flex items-center justify-center gap-1">
+                        <!-- Mode lecture : Modifier (Admin) -->
+                        @if (!editing && permissionService.canManageUsers()) {
+                            <button
+                                pButton
+                                type="button"
+                                pInitEditableRow
+                                rounded
+                                text
+                                size="small"
+                                class="p-2! cursor-pointer"
+                                (click)="onRowEditInit(user)"
+                                title="Modifier">
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                            </button>
+                        }
+
+                        <!-- Mode lecture : Supprimer (Admin) -->
+                        @if (!editing && permissionService.canManageUsers()) {
+                            <button
+                                pButton
+                                type="button"
+                                rounded
+                                text
+                                severity="danger"
+                                size="small"
+                                class="p-2! cursor-pointer"
+                                (click)="onDelete($event, user.id)"
+                                title="Supprimer">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                        }
+
+                        <!-- Mode édition : Valider la sauvegarde -->
+                        @if (editing) {
+                            <button
+                                pButton
+                                type="button"
+                                pSaveEditableRow
+                                rounded
+                                text
+                                severity="success"
+                                size="small"
+                                class="p-2! cursor-pointer"
+                                (click)="onRowEditSave(user)"
+                                title="Enregistrer">
+                                <span class="material-symbols-outlined text-[18px]">check</span>
+                            </button>
+                        }
+
+                        <!-- Mode édition : Annuler les modifications -->
+                        @if (editing) {
+                            <button
+                                pButton
+                                type="button"
+                                pCancelEditableRow
+                                rounded
+                                text
+                                severity="secondary"
+                                size="small"
+                                class="p-2! cursor-pointer"
+                                (click)="onRowEditCancel(user, ri)"
+                                title="Annuler">
+                                <span class="material-symbols-outlined text-[18px]">close</span>
+                            </button>
+                        }
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <!-- ÉTAT VIDE -->
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="8" class="text-center py-8 text-muted-color">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-4xl opacity-50">group_off</span>
+                        <span>Aucun utilisateur trouvé</span>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- COMPTEUR TOTAL BAS DE TABLE -->
+<div class="mt-2.5 px-2 flex items-center justify-between text-xs text-muted-color">
+    <span>Au total, il y a <strong class="font-semibold text-color">{{ userService.users().length }}</strong> utilisateur{{ userService.users().length > 1 ? 's' : '' }}.</span>
+</div>
+
+<!-- POP-UP CONFIRMATION SUPPRESSION AVEC GOOGLE ICONS VIA DIRECTIVE [pButton] -->
+<p-confirmpopup #cp>
+    <ng-template #headless let-message>
+        <div class="rounded-2xl p-5 max-w-sm">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="flex items-center justify-center w-9 h-9 rounded-full bg-red-500/15 text-red-500">
+                    <span class="material-symbols-outlined text-[20px]">warning</span>
+                </div>
+                <h3 class="font-semibold text-color text-base m-0">Confirmation</h3>
+            </div>
+            <p class="text-sm text-muted-color m-0 leading-relaxed">{{ message.message }}</p>
+            <div class="flex items-center justify-end gap-2 mt-5">
+                <button
+                    pButton
+                    type="button"
+                    rounded
+                    severity="secondary"
+                    outlined
+                    size="small"
+                    (click)="cp.onReject()"
+                    class="flex items-center gap-1.5 cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                    <span>Annuler</span>
+                </button>
+                <button
+                    pButton
+                    type="button"
+                    rounded
+                    severity="danger"
+                    size="small"
+                    autofocus
+                    (click)="cp.onAccept()"
+                    class="flex items-center gap-1.5 cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                    <span>Supprimer définitivement</span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmpopup>

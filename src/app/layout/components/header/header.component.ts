@@ -1,6 +1,6 @@
 import { ToasterService } from '../../../core/services/toaster.service';
 import { SessionService } from '../../../core/services/session.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 import { Component, inject, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class HeaderComponent {
         this.authService.logout();
 
         // Résolution propre de la promesse exigée par WebStorm
-        this.router.navigate(['/connexion']).then(() => {
+        void this.router.navigate(['/connexion']).then(() => {
             this.toastService.info('Déconnexion réussie', 'À très bientôt sur Data Skills Radar ! 👋');
         });
     }

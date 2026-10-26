@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { HeaderComponent } from './header.component';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 import { SessionService } from '../../../core/services/session.service';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { IAuthUser } from '../../../features/auth/models/login.model';
