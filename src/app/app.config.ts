@@ -7,7 +7,7 @@ import { errorInterceptor } from './core/interceptors/error-interceptor';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DsrTheme } from '../styles/theme/dsr-theme';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { firstValueFrom } from 'rxjs';
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
             await firstValueFrom(enumsService.loadReferenceData());
         }),
         provideZonelessChangeDetection(),
-        provideRouter(routes),
+        provideRouter(routes, withComponentInputBinding()),
         provideHttpClient(withInterceptors([loadingInterceptor, tokenInterceptor, errorInterceptor])),
         providePrimeNG({
             license:

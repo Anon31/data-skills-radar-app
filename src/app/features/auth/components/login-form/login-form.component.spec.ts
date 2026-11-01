@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { LoginFormComponent } from './login-form.component';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { ToasterService } from '../../../../core/services/toaster.service';
 import { ILoginDto } from '../../models/login.model';
 

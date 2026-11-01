@@ -1,0 +1,19 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+/* Assure que les inputs d'édition épousent parfaitement les cellules du tableau */
+:host ::ng-deep .p-celleditor input {
+    font-size: 0.875rem;
+    transition:
+        border-color 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+}
+
+/* Alignement vertical harmonisé */
+:host ::ng-deep .p-datatable-tbody > tr > td {
+    vertical-align: middle;
+}

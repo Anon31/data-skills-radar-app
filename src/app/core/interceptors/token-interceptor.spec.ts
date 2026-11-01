@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { tokenInterceptor } from './token-interceptor';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 describe('tokenInterceptor', () => {
     let authServiceMock: { getToken: ReturnType<typeof vi.fn> };

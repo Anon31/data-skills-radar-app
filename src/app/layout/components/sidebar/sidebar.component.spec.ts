@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { signal } from '@angular/core';
 import { SidebarComponent } from './sidebar.component';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 import { IAuthUser } from '../../../features/auth/models/login.model';
 
 describe('SidebarComponent', () => {

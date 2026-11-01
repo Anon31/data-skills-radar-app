@@ -1,6 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { ToasterService } from '../services/toaster.service';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 import { catchError, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 
