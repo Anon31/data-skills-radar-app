@@ -1,5 +1,5 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 import { RoleEnum } from '../enums/role.enum';
 
 @Injectable({
@@ -25,6 +25,7 @@ export class PermissionService {
     public readonly canUseAdvancedFilters = computed(() => this.isAdmin() || this.isUser());
     public readonly canExportDuckDB = computed(() => this.isAdmin() || this.isUser());
 
-    // Niveau 3 : Administration technique (Toi seul)
+    // Niveau 3 : Administration technique & Gestion des utilisateurs (Toi seul)
     public readonly canConfigureDataStack = computed(() => this.isAdmin());
+    public readonly canManageUsers = computed(() => this.isAdmin());
 }

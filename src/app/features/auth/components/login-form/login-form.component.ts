@@ -1,5 +1,5 @@
 import { ToasterService } from '../../../../core/services/toaster.service';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Component, inject, signal } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -36,7 +36,7 @@ export class LoginFormComponent {
 
         this.authService.login(payload).subscribe({
             next: (response) => {
-                this.router.navigate(['/tableau-de-bord']).then(() => {
+                void this.router.navigate(['/tableau-de-bord']).then(() => {
                     this.toastService.success(`Bonjour ${response.body?.user?.firstname}.`, `🌿 Bienvenue dans votre application.`);
                 });
             },

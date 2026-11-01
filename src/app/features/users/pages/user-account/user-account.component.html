@@ -1,1 +1,17 @@
-<p>user-account works!</p>
+<section class="h-full">
+    <app-page-card-wrapper
+        title="Mon compte"
+        icon="account_circle"
+        subtitle="Gérez vos informations personnelles et la sécurité de votre accès"
+        [hideDivider]="false">
+        @if (fullUserProfile()) {
+            <app-user-form
+                mode="edit-self"
+                [userData]="fullUserProfile()"
+                (save)="onUpdateProfile($event)"
+                (cancelClick)="onCancel()"
+                (requestPasswordChange)="openPasswordDialog()">
+            </app-user-form>
+        }
+    </app-page-card-wrapper>
+</section>

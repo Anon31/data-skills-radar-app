@@ -1,8 +1,12 @@
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../../features/auth/services/auth.service';
+import { PermissionService } from '../../../../core/services/permission.service';
 import { Component, computed, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
-    imports: [],
+    standalone: true,
+    imports: [RouterLink, NgClass],
     selector: 'app-sidebar-user',
     styleUrl: './sidebar-user.component.css',
     templateUrl: './sidebar-user.component.html',
@@ -11,9 +15,11 @@ export class SidebarUserComponent {
     isOpen = input.required<boolean>();
 
     private readonly authService = inject(AuthService);
+    private readonly permissionService = inject(PermissionService);
 
     // Le signal réactif contenant l'utilisateur actuel
     public readonly user = this.authService.userConnected;
+    public readonly canAccessAccount = this.permissionService.canUseAdvancedFilters;
 
     // Calcul automatique du nom complet
     public readonly fullName = computed(() => {

@@ -7,7 +7,7 @@ import { inject } from '@angular/core';
  * Ce guard vérifie que l'utilisateur a les droits d'administration (Rôle ADMIN).
  * Idéal pour protéger les routes de configuration technique.
  */
-export const adminGuard: CanActivateFn = (route, state) => {
+export const adminGuard: CanActivateFn = () => {
     const permissionService = inject(PermissionService);
     const router = inject(Router);
     const toasterService = inject(ToasterService);
@@ -18,6 +18,6 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
     toasterService.error('Accès restreint', "Vous n'avez pas les droits d'administration nécessaires pour accéder à cette zone.");
 
-    router.navigate(['/tableau-de-bord']);
+    void router.navigate(['/tableau-de-bord']);
     return false;
 };

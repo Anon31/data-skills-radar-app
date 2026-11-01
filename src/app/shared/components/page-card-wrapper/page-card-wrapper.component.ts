@@ -4,6 +4,7 @@ import { Card } from 'primeng/card';
 
 @Component({
     selector: 'app-page-card-wrapper',
+    standalone: true,
     imports: [Card, Divider],
     templateUrl: './page-card-wrapper.component.html',
     styleUrl: './page-card-wrapper.component.css',

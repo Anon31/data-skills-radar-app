@@ -1,10 +1,10 @@
 export interface IAddressDto {
     id: string;
-    number?: string;
-    street?: string;
-    city?: string;
-    zipcode?: string;
-    state?: string;
+    number: string;
+    street: string;
+    city: string;
+    postalCode: string;
+    country: string;
     userId: string;
 }
 

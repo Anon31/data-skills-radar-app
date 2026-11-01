@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { signal, WritableSignal } from '@angular/core';
 import { authGuard } from './auth-guard';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../features/auth/services/auth.service';
 import { ToasterService } from '../services/toaster.service';
 import { IAuthUser } from '../../features/auth/models/login.model';
 

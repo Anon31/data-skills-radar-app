@@ -145,5 +145,87 @@ export const DsrTheme = definePreset(Aura, {
                 },
             },
         },
+        datatable: {
+            columnTitle: {
+                fontWeight: '600',
+            },
+            colorScheme: {
+                light: {
+                    sortIcon: {
+                        color: '{surface.400}',
+                        hoverColor: '{primary.color}',
+                        size: '0.625rem',
+                    },
+                    header: {
+                        background: 'transparent',
+                        borderColor: '{surface.200}',
+                        color: '{surface.600}',
+                    },
+                    headerCell: {
+                        background: '{surface.50}',
+                        hoverBackground: '{surface.100}',
+                        borderColor: '{surface.200}',
+                        color: '{surface.700}',
+                    },
+                    bodyCell: {
+                        borderColor: '{surface.200}',
+                    },
+                    row: {
+                        background: 'transparent',
+                        color: '{surface.800}',
+                        hoverBackground: '{surface.50}',
+                    },
+                },
+                dark: {
+                    sortIcon: {
+                        color: '{primary.color}',
+                        hoverColor: '{primary.400}',
+                        size: '0.625rem',
+                    },
+                    header: {
+                        background: 'transparent',
+                        borderColor: '{surface.800}',
+                        color: '{surface.300}',
+                    },
+                    headerCell: {
+                        background: '{surface.900}',
+                        hoverBackground: '{surface.800}',
+                        borderColor: '{surface.800}',
+                        color: '{surface.200}',
+                    },
+                    bodyCell: {
+                        borderColor: '{surface.800}',
+                    },
+                    row: {
+                        background: 'transparent',
+                        color: '{surface.100}',
+                        hoverBackground: 'rgba(255, 255, 255, 0.03)',
+                    },
+                },
+            },
+        },
+        confirmpopup: {
+            colorScheme: {
+                light: {
+                    root: {
+                        background: 'rgba(255, 255, 255, 0.95)',
+                        borderRadius: '16px',
+                        borderColor: 'rgba(0, 0, 0, 0.08)',
+                    },
+                },
+                dark: {
+                    root: {
+                        background: 'rgba(15, 23, 42, 0.95)',
+                        borderRadius: '16px',
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                    },
+                },
+            },
+        },
+        tag: {
+            root: {
+                borderRadius: '8px',
+            },
+        },
     },
 });
