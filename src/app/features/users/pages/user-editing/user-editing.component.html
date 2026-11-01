@@ -1,1 +1,16 @@
-<p>user-editing.component works!</p>
+<section class="h-full">
+    <app-page-card-wrapper
+        title="Compte utilisateur"
+        icon="manage_accounts"
+        subtitle="Mettez à jour les informations et permissions du collaborateur"
+        [hideDivider]="false">
+        @if (loadedUser()) {
+            <app-user-form
+                mode="edit-admin"
+                [userData]="loadedUser()"
+                (save)="onUpdate($event)"
+                (cancelClick)="onCancel()">
+            </app-user-form>
+        }
+    </app-page-card-wrapper>
+</section>

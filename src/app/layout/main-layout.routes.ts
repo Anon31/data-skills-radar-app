@@ -1,4 +1,5 @@
 import { adminGuard } from '../core/guards/admin-guard';
+import { userGuard } from '../core/guards/user-guard';
 import { authGuard } from '../core/guards/auth-guard';
 import { Routes } from '@angular/router';
 
@@ -19,7 +20,14 @@ export const mainLayoutRoutes: Routes = [
                 loadComponent: () => import('../features/home/pages/dashboard/dashboard.component').then((m) => m.DashboardComponent),
             },
             {
+                path: 'mon-compte',
+                title: 'Mes paramètres utilisateur',
+                canActivate: [userGuard],
+                loadComponent: () => import('../features/users/pages/user-account/user-account.component').then((m) => m.UserAccountComponent),
+            },
+            {
                 path: 'utilisateurs',
+                title: 'Utilisateurs',
                 canActivate: [adminGuard],
                 loadComponent: () => import('../features/users/users.component').then((m) => m.UsersComponent),
                 children: [
@@ -38,7 +46,12 @@ export const mainLayoutRoutes: Routes = [
                         title: 'Créer un utilisateur',
                         loadComponent: () => import('../features/users/pages/user-create/user-create.component').then((m) => m.UserCreateComponent),
                     },
-                    // ... (édition, compte, etc.)
+                    {
+                        path: 'compte/:id',
+                        title: 'Détails du compte utilisateur',
+                        loadComponent: () =>
+                            import('../features/users/pages/user-editing/user-editing.component').then((m) => m.UserEditingComponent),
+                    },
                 ],
             },
             // {

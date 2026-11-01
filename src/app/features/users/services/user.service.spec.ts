@@ -42,7 +42,8 @@ describe('UserService', () => {
         service = TestBed.inject(UserService);
         httpMock = TestBed.inject(HttpTestingController);
 
-        // Au démarrage (constructor), UserService lance loadUsers()
+        // Déclenche l'effet interne de httpResource pour lancer la requête initiale
+        TestBed.tick();
         const initReq = httpMock.expectOne(`${environment.API_URL}/users`);
         expect(initReq.request.method).toBe('GET');
         initReq.flush([mockUser1, mockUser2]);
@@ -57,11 +58,12 @@ describe('UserService', () => {
         expect(service.users().length).toBe(2);
         expect(service.users()[0]).toEqual(mockUser1);
         expect(service.isLoading()).toBe(false);
-        expect(service.error()).toBeNull();
+        expect(service.error()).toBeUndefined();
     });
 
     it('doit rafraîchir les utilisateurs lors de l’appel à refreshUsers()', () => {
         service.refreshUsers();
+        TestBed.tick();
         expect(service.isLoading()).toBe(true);
 
         const req = httpMock.expectOne(`${environment.API_URL}/users`);

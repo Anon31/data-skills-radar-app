@@ -1,7 +1,9 @@
-<div class="rounded-2xl overflow-hidden border border-surface shadow-sm text-sm font-light transition-colors duration-300">
+<!-- p-4 ajouté ici pour décoller le tableau et la barre de recherche des bords du cadre -->
+<div class="rounded-2xl overflow-hidden border border-surface shadow-sm text-sm font-light transition-colors duration-300 p-4">
     <p-table
         #usersTable
         [value]="userService.users()"
+        [loading]="userService.isLoading()"
         [globalFilterFields]="['firstname', 'lastname', 'email', 'phone', 'address.city', 'role']"
         [rowHover]="true"
         [size]="'small'"
@@ -11,13 +13,14 @@
 
         <!-- BARRE DE RECHERCHE & ACTIONS -->
         <ng-template #caption>
-            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 p-2">
+            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-1 pb-4 pt-1">
                 <!-- GAUCHE : Outil de filtrage global avec Google Icon -->
-                <div class="relative w-full sm:w-72">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-color text-[20px] pointer-events-none select-none">
+                <div class="relative w-full sm:w-80">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-color text-[20px] pointer-events-none select-none">
                         search
                     </span>
                     <label for="user-search-input" class="sr-only">Rechercher un utilisateur</label>
+                    <!-- rounded-full! pour matcher exactement l'arrondi du bouton rounded -->
                     <input
                         id="user-search-input"
                         pInputText
@@ -25,7 +28,7 @@
                         type="text"
                         (input)="usersTable.filterGlobal($any($event.target).value, 'contains')"
                         placeholder="Rechercher un utilisateur..."
-                        class="w-full pl-10! rounded-xl" />
+                        class="w-full pl-10! py-2! rounded-full!" />
                 </div>
 
                 <!-- DROITE : Bouton Création d'utilisateur avec Google Icon via directive [pButton] -->
@@ -47,16 +50,16 @@
             </div>
         </ng-template>
 
-        <!-- EN-TÊTES DE COLONNES -->
+        <!-- EN-TÊTES DE COLONNES (Total = 100%) -->
         <ng-template #header>
             <tr>
-                <th scope="col" pSortableColumn="firstname" style="width: 15%">
+                <th scope="col" pSortableColumn="firstname" style="width: 13%">
                     <div class="flex items-center gap-2">
                         Prénom
                         <p-sort-icon field="firstname" />
                     </div>
                 </th>
-                <th scope="col" pSortableColumn="lastname" style="width: 15%">
+                <th scope="col" pSortableColumn="lastname" style="width: 13%">
                     <div class="flex items-center gap-2">
                         Nom
                         <p-sort-icon field="lastname" />
@@ -68,30 +71,30 @@
                         <p-sort-icon field="email" />
                     </div>
                 </th>
-                <th scope="col" style="width: 14%">
+                <th scope="col" style="width: 12%">
                     <div class="flex items-center gap-2">
                         Téléphone
                     </div>
                 </th>
-                <th scope="col" pSortableColumn="address.city" style="width: 12%">
+                <th scope="col" pSortableColumn="address.city" style="width: 11%">
                     <div class="flex items-center gap-2">
                         Ville
                         <p-sort-icon field="address.city" />
                     </div>
                 </th>
-                <th scope="col" pSortableColumn="role" style="width: 12%">
+                <th scope="col" pSortableColumn="role" style="width: 11%">
                     <div class="flex items-center gap-2">
                         Rôle
                         <p-sort-icon field="role" />
                     </div>
                 </th>
-                <th scope="col" pSortableColumn="enabled" style="width: 10%">
+                <th scope="col" pSortableColumn="enabled" style="width: 9%">
                     <div class="flex items-center gap-2">
                         Statut
                         <p-sort-icon field="enabled" />
                     </div>
                 </th>
-                <th scope="col" style="width: 10%" class="text-center">
+                <th scope="col" style="width: 9%" class="text-center">
                     <div class="flex items-center justify-center">
                         Actions
                     </div>
@@ -217,7 +220,22 @@
                 <!-- ACTIONS AVEC GOOGLE ICONS VIA DIRECTIVE [pButton] -->
                 <td>
                     <div class="flex items-center justify-center gap-1">
-                        <!-- Mode lecture : Modifier (Admin) -->
+                        <!-- Mode lecture : Voir / Éditer le profil complet (Admin) -->
+                        @if (!editing && permissionService.canManageUsers()) {
+                            <a
+                                pButton
+                                [routerLink]="['/utilisateurs/compte', user.id]"
+                                rounded
+                                text
+                                severity="secondary"
+                                size="small"
+                                class="p-2! cursor-pointer"
+                                title="Voir / Éditer le profil complet">
+                                <span class="material-symbols-outlined text-[18px]">visibility</span>
+                            </a>
+                        }
+
+                        <!-- Mode lecture : Modifier rapidement en ligne (Admin) -->
                         @if (!editing && permissionService.canManageUsers()) {
                             <button
                                 pButton
@@ -228,7 +246,7 @@
                                 size="small"
                                 class="p-2! cursor-pointer"
                                 (click)="onRowEditInit(user)"
-                                title="Modifier">
+                                title="Modifier en ligne">
                                 <span class="material-symbols-outlined text-[18px]">edit</span>
                             </button>
                         }

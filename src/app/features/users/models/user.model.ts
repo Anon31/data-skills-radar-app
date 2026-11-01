@@ -2,6 +2,8 @@ import { IAddressDto, IAddressPayload } from '../../../shared/models/address.mod
 import { type Role } from '../../../core/enums/role.enum';
 export { RoleEnum, type Role } from '../../../core/enums/role.enum';
 
+export type UserFormMode = 'create' | 'edit-admin' | 'edit-self';
+
 export interface IUserDto {
     id: string;
     firstname: string;
@@ -20,7 +22,7 @@ export interface IUserPayload {
     firstname: string;
     lastname: string;
     email: string;
-    password: string;
+    password?: string;
     phone?: string;
     birthdate: string;
     role: Role;

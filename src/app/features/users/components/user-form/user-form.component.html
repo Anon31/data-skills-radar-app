@@ -1,0 +1,307 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-5 mt-2">
+        <!-- PRÉNOM -->
+        <div class="flex flex-col gap-2">
+            <label for="firstname" class="text-sm font-medium text-surface-700 dark:text-surface-200 flex items-center gap-1 truncate">
+                <span>Prénom</span>
+                @if (mode() === 'edit-self') {
+                    <span class="material-symbols-outlined text-[16px] text-muted-color" title="Verrouillé">lock</span>
+                } @else {
+                    <span class="text-primary">*</span>
+                }
+            </label>
+            <input
+                id="firstname"
+                type="text"
+                pInputText
+                formControlName="firstname"
+                placeholder="Ex: Thomas"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.firstname.touched && userForm.controls.firstname.invalid }" />
+            @if (userForm.controls.firstname.touched && userForm.controls.firstname.errors?.['required']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">Le prénom est requis.</small>
+            } @else if (userForm.controls.firstname.touched && userForm.controls.firstname.errors?.['minlength']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">2 caractères minimum.</small>
+            }
+        </div>
+
+        <!-- NOM -->
+        <div class="flex flex-col gap-2">
+            <label for="lastname" class="text-sm font-medium text-surface-700 dark:text-surface-200 flex items-center gap-1 truncate">
+                <span>Nom</span>
+                @if (mode() === 'edit-self') {
+                    <span class="material-symbols-outlined text-[16px] text-muted-color" title="Verrouillé">lock</span>
+                } @else {
+                    <span class="text-primary">*</span>
+                }
+            </label>
+            <input
+                id="lastname"
+                type="text"
+                pInputText
+                formControlName="lastname"
+                placeholder="Ex: Pesquet"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.lastname.touched && userForm.controls.lastname.invalid }" />
+            @if (userForm.controls.lastname.touched && userForm.controls.lastname.errors?.['required']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">Le nom est requis.</small>
+            } @else if (userForm.controls.lastname.touched && userForm.controls.lastname.errors?.['minlength']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">2 caractères minimum.</small>
+            }
+        </div>
+
+        <!-- EMAIL -->
+        <div class="flex flex-col gap-2">
+            <label for="email" class="text-sm font-medium text-surface-700 dark:text-surface-200 flex items-center gap-1 truncate">
+                <span>Email</span>
+                @if (mode() === 'edit-self') {
+                    <span class="material-symbols-outlined text-[16px] text-muted-color" title="Verrouillé">lock</span>
+                } @else {
+                    <span class="text-primary">*</span>
+                }
+            </label>
+            <input
+                id="email"
+                type="email"
+                pInputText
+                formControlName="email"
+                placeholder="exemple@domaine.fr"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.email.touched && userForm.controls.email.invalid }" />
+            @if (userForm.controls.email.touched && userForm.controls.email.errors?.['required']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">L'adresse email est requise.</small>
+            } @else if (userForm.controls.email.touched && userForm.controls.email.errors?.['email']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">Format d'email invalide.</small>
+            }
+        </div>
+
+        <!-- DATE DE NAISSANCE -->
+        <div class="flex flex-col gap-2">
+            <label for="birthdate" class="text-sm font-medium text-surface-700 dark:text-surface-200 flex items-center gap-1 truncate">
+                <span>Date de naissance</span>
+                @if (mode() === 'edit-self') {
+                    <span class="material-symbols-outlined text-[16px] text-muted-color" title="Verrouillé">lock</span>
+                } @else {
+                    <span class="text-primary">*</span>
+                }
+            </label>
+            <input
+                id="birthdate"
+                type="date"
+                pInputText
+                formControlName="birthdate"
+                class="w-full [color-scheme:light] dark:[color-scheme:dark]"
+                [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.birthdate.touched && userForm.controls.birthdate.invalid }" />
+            @if (userForm.controls.birthdate.touched && userForm.controls.birthdate.errors?.['required']) {
+                <small class="text-red-500 dark:text-red-400 text-xs">La date de naissance est requise.</small>
+            }
+        </div>
+
+        <!-- SECTION SÉCURITÉ -->
+        @if (mode() !== 'edit-admin') {
+            <div class="col-span-1 lg:col-span-2 mt-4">
+                <h3 class="text-base font-semibold text-surface-900 dark:text-surface-0 m-0 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+                    <span>Sécurité</span>
+                </h3>
+                <p-divider class="mt-2 before:border-t-surface-200 dark:before:border-t-surface-800"></p-divider>
+            </div>
+            <div class="lg:col-span-2">
+                @if (mode() === 'create') {
+                    <div class="flex flex-col gap-2 lg:w-1/2">
+                        <label for="password" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">
+                            Mot de passe provisoire <span class="text-primary">*</span>
+                        </label>
+                        <input
+                            id="password"
+                            type="password"
+                            pInputPassword
+                            autocomplete="new-password"
+                            formControlName="password"
+                            class="w-full"
+                            [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.password.touched && userForm.controls.password.invalid }" />
+                        @if (userForm.controls.password.touched && userForm.controls.password.errors?.['required']) {
+                            <small class="text-red-500 dark:text-red-400 text-xs">Le mot de passe est requis.</small>
+                        } @else if (userForm.controls.password.touched && userForm.controls.password.errors?.['minlength']) {
+                            <small class="text-red-500 dark:text-red-400 text-xs">8 caractères minimum.</small>
+                        }
+                    </div>
+                } @else if (mode() === 'edit-self') {
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 items-center gap-x-6 gap-y-4">
+                        <p class="text-sm text-muted-color m-0">
+                            Vous pouvez modifier votre mot de passe à tout moment pour sécuriser votre compte.
+                        </p>
+                        <div class="w-full flex justify-end">
+                            <button
+                                pButton
+                                type="button"
+                                rounded
+                                raised
+                                outlined
+                                size="small"
+                                (click)="requestPasswordChange.emit()"
+                                class="w-full md:w-auto flex items-center justify-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-[18px]">key</span>
+                                <span>Modifier mon mot de passe</span>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- SECTION INFORMATIONS COMPLÉMENTAIRES -->
+        <div class="col-span-1 lg:col-span-2 mt-4">
+            <h3 class="text-base font-semibold text-surface-900 dark:text-surface-0 m-0 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+                <span>Informations complémentaires</span>
+            </h3>
+            <p-divider class="mt-2 before:border-t-surface-200 dark:before:border-t-surface-800"></p-divider>
+        </div>
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+            @if (mode() !== 'edit-self') {
+                <div class="flex flex-col gap-2">
+                    <label for="role" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">
+                        Rôle <span class="text-primary">*</span>
+                    </label>
+                    <p-select
+                        inputId="role"
+                        formControlName="role"
+                        [options]="rolesOptions()"
+                        optionLabel="label"
+                        optionValue="value"
+                        class="w-full"
+                        appendTo="body"
+                        [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.role.touched && userForm.controls.role.invalid }" />
+                </div>
+            }
+            <div class="flex flex-col gap-2" [class.md:col-span-2]="mode() === 'edit-self'">
+                <label for="phone" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">
+                    Téléphone
+                </label>
+                <input
+                    id="phone"
+                    type="tel"
+                    pInputText
+                    formControlName="phone"
+                    placeholder="0612345678"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.phone.touched && userForm.controls.phone.invalid }" />
+                @if (userForm.controls.phone.touched && userForm.controls.phone.errors?.['pattern']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">10 chiffres requis (sans espaces).</small>
+                }
+            </div>
+        </div>
+
+        <!-- SECTION ADRESSE -->
+        <div class="col-span-1 lg:col-span-2 mt-4">
+            <h3 class="text-base font-semibold text-surface-900 dark:text-surface-0 m-0 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+                <span>Adresse <span class="text-xs font-normal text-muted-color">(optionnelle)</span></span>
+            </h3>
+            <p-divider class="mt-2 before:border-t-surface-200 dark:before:border-t-surface-800"></p-divider>
+        </div>
+        <div formGroupName="address" class="lg:col-span-2 grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-5">
+            <div class="flex flex-col gap-2 md:col-span-3">
+                <label for="number" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">N°</label>
+                <input
+                    id="number"
+                    type="text"
+                    pInputText
+                    formControlName="number"
+                    placeholder="12 bis"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.address.controls.number.touched && userForm.controls.address.controls.number.invalid }" />
+                @if (userForm.controls.address.controls.number.touched && userForm.controls.address.controls.number.errors?.['required']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">Le n° est obligatoire.</small>
+                }
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-9">
+                <label for="street" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">Voie</label>
+                <input
+                    id="street"
+                    type="text"
+                    pInputText
+                    formControlName="street"
+                    placeholder="Rue de la République"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.address.controls.street.touched && userForm.controls.address.controls.street.invalid }" />
+                @if (userForm.controls.address.controls.street.touched && userForm.controls.address.controls.street.errors?.['required']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">La rue est obligatoire si une adresse est renseignée.</small>
+                }
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-4">
+                <label for="postalCode" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">Code postal</label>
+                <input
+                    id="postalCode"
+                    type="text"
+                    pInputText
+                    formControlName="postalCode"
+                    placeholder="81000"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.address.controls.postalCode.touched && userForm.controls.address.controls.postalCode.invalid }" />
+                @if (userForm.controls.address.controls.postalCode.touched && userForm.controls.address.controls.postalCode.errors?.['required']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">Le code postal est obligatoire.</small>
+                }
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-4">
+                <label for="city" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">Ville</label>
+                <input
+                    id="city"
+                    type="text"
+                    pInputText
+                    formControlName="city"
+                    placeholder="Albi"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.address.controls.city.touched && userForm.controls.address.controls.city.invalid }" />
+                @if (userForm.controls.address.controls.city.touched && userForm.controls.address.controls.city.errors?.['required']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">La ville est obligatoire.</small>
+                }
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-4">
+                <label for="country" class="text-sm font-medium text-surface-700 dark:text-surface-200 truncate">Pays</label>
+                <input
+                    id="country"
+                    type="text"
+                    pInputText
+                    formControlName="country"
+                    placeholder="France"
+                    class="w-full"
+                    [ngClass]="{ 'ng-invalid ng-dirty': userForm.controls.address.controls.country.touched && userForm.controls.address.controls.country.invalid }" />
+                @if (userForm.controls.address.controls.country.touched && userForm.controls.address.controls.country.errors?.['required']) {
+                    <small class="text-red-500 dark:text-red-400 text-xs">Le pays est obligatoire.</small>
+                }
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-6 pt-4 border-t border-surface-200 dark:border-surface-800">
+            <div class="w-full">
+                <button
+                    pButton
+                    type="button"
+                    rounded
+                    outlined
+                    severity="secondary"
+                    size="small"
+                    (click)="cancelClick.emit()"
+                    class="w-full flex items-center justify-center gap-2 cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                    <span>Annuler</span>
+                </button>
+            </div>
+            <div class="w-full">
+                <button
+                    pButton
+                    type="submit"
+                    rounded
+                    raised
+                    size="small"
+                    class="w-full flex items-center justify-center gap-2 cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">check</span>
+                    <span>{{ mode() === 'create' ? "Créer l'utilisateur" : 'Enregistrer les modifications' }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

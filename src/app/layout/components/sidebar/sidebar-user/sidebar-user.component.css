@@ -1,0 +1,33 @@
+.sidebar-user-wrapper {
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+:host-context(.dark) .sidebar-user-wrapper {
+    border-top-color: rgba(30, 41, 59, 0.5);
+}
+
+.sidebar-user-card {
+    background-color: rgba(241, 245, 249, 0.5);
+    border: 1px solid #e2e8f0;
+}
+
+:host-context(.dark) .sidebar-user-card {
+    background-color: rgba(30, 41, 59, 0.5);
+    border-color: #334155;
+}
+
+.sidebar-user-avatar {
+    background-color: #ffffff;
+}
+
+:host-context(.dark) .sidebar-user-avatar {
+    background-color: #0f172a;
+}
+
+.sidebar-user-name {
+    color: #0f172a;
+}
+
+:host-context(.dark) .sidebar-user-name {
+    color: #ffffff;
+}

@@ -1,1 +1,13 @@
-<p>user-create.component works!</p>
+<section class="h-full">
+    <app-page-card-wrapper
+        title="Créer un utilisateur"
+        icon="person_add"
+        subtitle="Ajouter un nouveau collaborateur à la plateforme"
+        [hideDivider]="false">
+        <app-user-form
+            mode="create"
+            (save)="onCreate($event)"
+            (cancelClick)="onCancel()">
+        </app-user-form>
+    </app-page-card-wrapper>
+</section>

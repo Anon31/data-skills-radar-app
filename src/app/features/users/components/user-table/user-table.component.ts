@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, computed } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -18,13 +18,14 @@ import { RoleEnum, type IUserDto, type IUserPayload } from '../../models/user.mo
 
 @Component({
     selector: 'app-user-table',
+    standalone: true,
     imports: [TableModule, InputText, FormsModule, Select, ButtonModule, Tag, ConfirmPopup, RouterLink, EnumsDynamicPipe],
     providers: [EnumsDynamicPipe],
     templateUrl: './user-table.component.html',
     styleUrl: './user-table.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserTableComponent implements OnInit {
+export class UserTableComponent {
     readonly userService = inject(UserService);
     readonly toasterService = inject(ToasterService);
     readonly confirmationService = inject(ConfirmationService);
@@ -44,12 +45,6 @@ export class UserTableComponent implements OnInit {
             value: roleValue,
         }));
     });
-
-    ngOnInit(): void {
-        if (this.userService.users().length === 0) {
-            this.userService.loadUsers();
-        }
-    }
 
     /**
      * Lors de l'initialisation de l'édition d'une ligne, on clone l'utilisateur
